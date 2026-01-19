@@ -5,6 +5,7 @@ import useSWR, { mutate } from 'swr';
 
 // project-imports
 import { fetcher } from 'utils/axios';
+import axiosServices from 'utils/axios';
 
 // types
 import { CustomerList, CustomerProps } from 'types/customer';
@@ -13,19 +14,16 @@ const initialState: CustomerProps = {
   modal: false
 };
 
-// ==============================|| API - CUSTOMER ||============================== //
+// ==============================|| API - CUSTOMER (RESTful) ||============================== //
 
 const endpoints = {
-  key: 'api/customer',
-  list: '/list', // server URL
-  modal: '/modal', // server URL
-  insert: '/insert', // server URL
-  update: '/update', // server URL
-  delete: '/delete' // server URL
+  key: 'api/customers',  // RESTful: çoğul isim
+  modal: '/modal'        // Modal state için ayrı endpoint
 };
 
+// GET /api/customers - Tüm müşterileri listele
 export function useGetCustomer() {
-  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -45,72 +43,138 @@ export function useGetCustomer() {
   return memoizedValue;
 }
 
-export async function insertCustomer(newCustomer: CustomerList) {
-  // to update local state based on key
-  mutate(
-    endpoints.key + endpoints.list,
-    (currentCustomer: any) => {
-      newCustomer.id = currentCustomer.customers.length + 1;
-      const addedCustomer: CustomerList[] = [...currentCustomer.customers, newCustomer];
+// GET /api/customers/:id - Tek müşteri getir
+export function useGetCustomerById(id: number) {
+  
+  const { data, isLoading, error } = useSWR(
+    id ? `${endpoints.key}/${id}` : null,
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
+    }
+  );
 
+  return {
+    customer: data?.customer as CustomerList,
+    customerLoading: isLoading,
+    customerError: error
+  };
+}
+
+// POST /api/customers - Yeni müşteri oluştur
+export async function insertCustomer(newCustomer: Omit<CustomerList, 'id'>) {
+
+  const tempId = Date.now(); // Geçici ID
+
+  // Optimistic update - local state'i güncelle
+  mutate(
+    endpoints.key,
+    (currentData: any) => {
+
+      const addedCustomer: CustomerList = { ...newCustomer, id: tempId } as CustomerList;
+      
       return {
-        ...currentCustomer,
-        customers: addedCustomer
+        ...currentData,
+        customers: [...(currentData?.customers || []), addedCustomer]
       };
     },
     false
   );
 
-  // to hit server
-  // you may need to refetch latest data after server hit and based on your logic
-  //   const data = { newCustomer };
-  //   await axios.post(endpoints.key + endpoints.insert, data);
+  // Server'a gönder
+  try {
+    const response = await axiosServices.post(endpoints.key, newCustomer);
+    const createdCustomer = response.data.customer;
+    
+    // Server'dan gelen gerçek ID ile güncelle
+    mutate(
+      endpoints.key,
+      (currentData: any) => {
+        const customers = currentData?.customers || [];
+        const updatedCustomers = customers.map((c: CustomerList) =>
+          c.id === tempId ? createdCustomer : c
+        );
+        return { ...currentData, customers: updatedCustomers };
+      },
+      false
+    );
+    
+    return createdCustomer;
+  } catch (error) {
+    // Hata durumunda rollback
+    mutate(endpoints.key);
+    throw error;
+  }
 }
 
-export async function updateCustomer(customerId: number, updatedCustomer: CustomerList) {
-  // to update local state based on key
+// PUT /api/customers/:id - Müşteri güncelle
+export async function updateCustomer(customerId: number, updatedCustomer: Partial<CustomerList>) {
+  // Optimistic update
   mutate(
-    endpoints.key + endpoints.list,
-    (currentCustomer: any) => {
-      const newCustomer: CustomerList[] = currentCustomer.customers.map((customer: CustomerList) =>
+    endpoints.key,
+    (currentData: any) => {
+      const customers = currentData?.customers || [];
+      const updatedCustomers = customers.map((customer: CustomerList) =>
         customer.id === customerId ? { ...customer, ...updatedCustomer } : customer
       );
-
-      return {
-        ...currentCustomer,
-        customers: newCustomer
-      };
+      return { ...currentData, customers: updatedCustomers };
     },
     false
   );
 
-  // to hit server
-  // you may need to refetch latest data after server hit and based on your logic
-  //   const data = { list: updatedCustomer };
-  //   await axios.post(endpoints.key + endpoints.update, data);
+  // Server'a gönder
+  try {
+    const response = await axiosServices.put(`${endpoints.key}/${customerId}`, updatedCustomer);
+    const updated = response.data.customer;
+    
+    // Server'dan gelen veri ile güncelle
+    mutate(
+      endpoints.key,
+      (currentData: any) => {
+        const customers = currentData?.customers || [];
+        const updatedCustomers = customers.map((customer: CustomerList) =>
+          customer.id === customerId ? updated : customer
+        );
+        return { ...currentData, customers: updatedCustomers };
+      },
+      false
+    );
+    
+    return updated;
+  } catch (error) {
+    // Hata durumunda rollback
+    mutate(endpoints.key);
+    throw error;
+  }
 }
 
+// DELETE /api/customers/:id - Müşteri sil
 export async function deleteCustomer(customerId: number) {
-  // to update local state based on key
+  // Optimistic update
   mutate(
-    endpoints.key + endpoints.list,
-    (currentCustomer: any) => {
-      const nonDeletedCustomer = currentCustomer.customers.filter((customer: CustomerList) => customer.id !== customerId);
-
-      return {
-        ...currentCustomer,
-        customers: nonDeletedCustomer
-      };
+    endpoints.key,
+    (currentData: any) => {
+      const customers = currentData?.customers || [];
+      const filteredCustomers = customers.filter((customer: CustomerList) => customer.id !== customerId);
+      return { ...currentData, customers: filteredCustomers };
     },
     false
   );
 
-  // to hit server
-  // you may need to refetch latest data after server hit and based on your logic
-  //   const data = { customerId };
-  //   await axios.post(endpoints.key + endpoints.delete, data);
+  // Server'a gönder
+  try {
+    await axiosServices.delete(`${endpoints.key}/${customerId}`);
+    // Başarılı ise zaten optimistic update yapıldı
+  } catch (error) {
+    // Hata durumunda rollback
+    mutate(endpoints.key);
+    throw error;
+  }
 }
 
+// Modal state için (değişmedi)
 export function useGetCustomerMaster() {
   const { data, isLoading } = useSWR(endpoints.key + endpoints.modal, () => initialState, {
     revalidateIfStale: false,
@@ -130,8 +194,6 @@ export function useGetCustomerMaster() {
 }
 
 export function handlerCustomerDialog(modal: boolean) {
-  // to update local state based on key
-
   mutate(
     endpoints.key + endpoints.modal,
     (currentCustomermaster: any) => {

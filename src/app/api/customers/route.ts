@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Gender } from 'config';
 import { CustomerList } from 'types/customer';
 
@@ -72,15 +72,36 @@ const mockCustomers: CustomerList[] = [
     time: ['8:00 AM', '5:00 PM'],
     date: new Date(),
     avatar: 3
-  },
-  // Daha fazla mock data ekleyebilirsiniz...
+  }
 ];
 
+// GET /api/customers - Tüm müşterileri listele
 export async function GET() {
-  // Simüle edilmiş network delay (opsiyonel)
-  // await new Promise(resolve => setTimeout(resolve, 500));
-
   return NextResponse.json({
     customers: mockCustomers
   });
+}
+
+// POST /api/customers - Yeni müşteri oluştur
+export async function POST(request: NextRequest) {
+  try {
+    const newCustomer: CustomerList = await request.json();
+    
+    // ID'yi otomatik oluştur
+    const maxId = Math.max(...mockCustomers.map(c => c.id || 0), 0);
+    newCustomer.id = maxId + 1;
+    
+    // Mock data'ya ekle (gerçek uygulamada veritabanına kaydedilir)
+    mockCustomers.push(newCustomer);
+    
+    return NextResponse.json(
+      { customer: newCustomer },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 }
+    );
+  }
 }
