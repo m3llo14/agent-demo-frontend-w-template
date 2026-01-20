@@ -36,6 +36,7 @@
   "customers": "Customers",
   "chat": "Chat",
   "call-log": "Call Log",
-  "services": "Services"
+  "services": "Services",
+  "dashboard": "Dashboard"
 
 }
