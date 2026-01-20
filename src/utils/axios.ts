@@ -43,3 +43,11 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
   return res.data;
 };
+
+export const fetcherPost = async (args: string | [string, AxiosRequestConfig]) => {
+  const [url, config] = Array.isArray(args) ? args : [args];
+
+  const res = await axiosServices.post(url, { ...config });
+
+  return res.data;
+};

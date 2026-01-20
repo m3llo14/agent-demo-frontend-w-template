@@ -32,6 +32,10 @@
   "home": "Home",
 
   "management": "Management",
-  "calender": "Calender"
+  "calender": "Calender",
+  "customers": "Customers",
+  "chat": "Chat",
+  "call-log": "Call Log",
+  "services": "Services"
 
 }

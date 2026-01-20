@@ -20,7 +20,7 @@ const icons = {
 
 const others: NavItemType = {
   id: 'other',
-  title: 'others',
+  title: 'customers',
   type: 'group',
   children: [
     {
@@ -30,7 +30,15 @@ const others: NavItemType = {
       url: '/calender',
       icon: icons.calender,
       target: false
-    }
+    },
+    {
+    id: 'call-log',
+    title: 'call-log',
+    type: 'item',
+    url: '/chat',
+    icon: icons.calender,
+    target: false
+    },
     /*{
       id: 'menu-level-subtitle',
       title: 'menu-level-subtitle',

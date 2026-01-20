@@ -31,6 +31,14 @@ const management: NavItemType = {
       icon: icons.customercard,
       target: false
     },
+    {
+      id: 'services',
+      title: 'services',
+      type: 'item',
+      url: '/services',
+      icon: icons.customercard,
+      target: false
+    },
     /*
     {
       id: 'maintenance',
