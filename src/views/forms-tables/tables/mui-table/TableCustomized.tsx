@@ -200,36 +200,36 @@ export default function CustomizedTables() {
             </>
           ) : (
             <>
-              <TableHead>
-                <TableRow>
+          <TableHead>
+            <TableRow>
                   <StyledTableCell sx={{ pl: 3 }}>Name</StyledTableCell>
                   <StyledTableCell align="right">Price</StyledTableCell>
-                  <StyledTableCell align="right">Capacity</StyledTableCell>
+              <StyledTableCell align="right">Capacity</StyledTableCell>
                   <StyledTableCell align="right">Description</StyledTableCell>
                   <StyledTableCell align="right">Stock</StyledTableCell>
                   <StyledTableCell align="right">Max Adults</StyledTableCell>
-                  <StyledTableCell sx={{ pr: 3 }} align="right">
+              <StyledTableCell sx={{ pr: 3 }} align="right">
                     Max Children
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
                 {hotelRows.map((row) => (
                   <StyledTableRow hover key={row.id}>
-                    <StyledTableCell sx={{ pl: 3 }} component="th" scope="row">
+                <StyledTableCell sx={{ pl: 3 }} component="th" scope="row">
                       {row.name}
-                    </StyledTableCell>
+                </StyledTableCell>
                     <StyledTableCell align="right">{row.price}</StyledTableCell>
-                    <StyledTableCell align="right">{row.capacity}</StyledTableCell>
+                <StyledTableCell align="right">{row.capacity}</StyledTableCell>
                     <StyledTableCell align="right">{row.description}</StyledTableCell>
                     <StyledTableCell align="right">{row.stock}</StyledTableCell>
                     <StyledTableCell align="right">{row.maxAdults}</StyledTableCell>
-                    <StyledTableCell sx={{ pr: 3 }} align="right">
+                <StyledTableCell sx={{ pr: 3 }} align="right">
                       {row.maxChildren}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
             </>
           )}
         </Table>

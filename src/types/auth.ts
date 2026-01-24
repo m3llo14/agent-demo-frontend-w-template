@@ -1,11 +1,14 @@
 import { ReactNode } from 'react';
 
-// ==============================|| TYPES - AUTH  ||============================== //
+// ==============================|| TYPES - AUTH ||============================== //
 
 export type GuardProps = {
   children: ReactNode;
 };
 
-export type UserRole = 'super_admin' | 'merchant_admin';
+export type UserRole = 'SUPER_ADMIN' | 'MERCHANT_ADMIN';
 
-export type TenantType = 'hotel' | 'tourism';
+export type TenantType =
+  | 'hotel'
+  | 'tourism'
+  | 'barber';

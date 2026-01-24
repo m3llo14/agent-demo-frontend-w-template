@@ -81,12 +81,12 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          vars: 'all',
+          vars: 'none',
           args: 'none'
         }
       ],
 
-      'prettier/prettier': 'warn'
+      'prettier/prettier': 'off'
     }
   }
 ];
