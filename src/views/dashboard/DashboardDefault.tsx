@@ -1,23 +1,19 @@
 'use client';
 
+// next
+import { useSession } from 'next-auth/react';
+
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 // project-imports
 import EcommerceDataCard from 'components/cards/statistics/EcommerceDataCard';
 import { GRID_COMMON_SPACING } from 'config';
 
-import WelcomeBanner from 'sections/dashboard/default/WelcomeBanner';
-import ProjectRelease from 'sections/dashboard/default/ProjectRelease';
 import EcommerceDataChart from 'sections/widget/chart/EcommerceDataChart';
-import TotalIncome from 'sections/widget/chart/TotalIncome';
 import RepeatCustomerRate from 'sections/widget/chart/RepeatCustomerRate';
-import ProjectOverview from 'sections/widget/chart/ProjectOverview';
-import Transactions from 'sections/widget/data/Transactions';
-import AssignUsers from 'sections/widget/statistics/AssignUsers';
 
 // assets
 import { ArrowDown, ArrowUp, Book, Calendar, CloudChange, Wallet3 } from '@wandersonalwes/iconsax-react';
@@ -26,6 +22,32 @@ import { ArrowDown, ArrowUp, Book, Calendar, CloudChange, Wallet3 } from '@wande
 
 export default function DashboardDefault() {
   const theme = useTheme();
+  const { data: session } = useSession();
+
+  let tenantOverride: string | null = null;
+  if (typeof window !== 'undefined') {
+    tenantOverride = new URLSearchParams(window.location.search).get('tenantType');
+  }
+
+  const tenantType =
+    tenantOverride === 'hotel' || tenantOverride === 'tourism'
+      ? tenantOverride
+      : session?.user?.tenantType || 'hotel';
+
+  const cardTitles = {
+    hotel: {
+      revenue: 'Total Revenue',
+      bookings: 'Total Bookings',
+      occupancy: 'Occupied Rooms',
+      today: 'Check-ins Today'
+    },
+    tourism: {
+      revenue: 'Total Revenue',
+      bookings: 'Total Trips',
+      occupancy: 'Active Routes',
+      today: 'Departures Today'
+    }
+  } as const;
 
   return (
     <Grid container spacing={GRID_COMMON_SPACING}>
@@ -35,7 +57,7 @@ export default function DashboardDefault() {
       {/* row 1 */}
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title="Total Revenue"
+          title={cardTitles[tenantType].revenue}
           count="$3000"
           iconPrimary={<Wallet3 />}
           percentage={
@@ -49,7 +71,7 @@ export default function DashboardDefault() {
       </Grid>
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title="Total Bookings"
+          title={cardTitles[tenantType].bookings}
           count="290+"
           color="warning"
           iconPrimary={<Book />}
@@ -64,7 +86,7 @@ export default function DashboardDefault() {
       </Grid>
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title="Occupied Rooms"
+          title={cardTitles[tenantType].occupancy}
           count="1,568"
           color="success"
           iconPrimary={<Calendar />}
@@ -79,7 +101,7 @@ export default function DashboardDefault() {
       </Grid>
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title="Check-ins Today"
+          title={cardTitles[tenantType].today}
           count="20"
           color="error"
           iconPrimary={<CloudChange />}
