@@ -30,7 +30,7 @@ export default function useUser() {
       email: user?.email || 'doe@codedthemes.com',
       avatar: user?.image || '/assets/images/users/avatar-1.png',
       thumb,
-      role: 'UI/UX Designer'
+      role: user?.role || 'merchant_admin'
     };
 
     return newUser;

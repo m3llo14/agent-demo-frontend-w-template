@@ -10,6 +10,9 @@ import axios from 'utils/axios';
 declare module 'next-auth' {
   interface User {
     accessToken?: string;
+    role?: string;
+    tenantType?: string;
+    tenantId?: string;
   }
 }
 
@@ -75,11 +78,21 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, user, account }) => {
+      const fallbackRole = 'merchant_admin';
+      const fallbackTenantType = 'hotel';
+
       if (user) {
         token.accessToken = user.accessToken;
         token.id = user.id;
         token.provider = account?.provider;
+        token.role = user.role || fallbackRole;
+        token.tenantType = user.tenantType || fallbackTenantType;
+        token.tenantId = user.tenantId;
       }
+
+      if (!token.role) token.role = fallbackRole;
+      if (!token.tenantType) token.tenantType = fallbackTenantType;
+
       return token;
     },
     session: ({ session, token }) => {
@@ -87,6 +100,12 @@ export const authOptions: NextAuthOptions = {
         session.id = token.id;
         session.provider = token.provider;
         session.token = token;
+        session.user = {
+          ...session.user,
+          role: token.role,
+          tenantType: token.tenantType,
+          tenantId: token.tenantId
+        };
       }
       return session;
     },

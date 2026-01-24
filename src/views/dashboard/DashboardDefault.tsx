@@ -103,19 +103,9 @@ export default function DashboardDefault() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid size={{ xs: 12, md: 4, lg: 3 }}>
-        <Stack sx={{ gap: GRID_COMMON_SPACING }}>
-{/*           <ProjectRelease /> */}
-{/*           <AssignUsers /> */}
-        </Stack>
-      </Grid>
+
       {/* row 3 */}
-      <Grid size={{ xs: 12, md: 6 }}>
-        <Transactions />
-      </Grid>
-      <Grid size={{ xs: 12, md: 6 }}>
-        <TotalIncome />
-      </Grid>
+
     </Grid>
   );
 }
