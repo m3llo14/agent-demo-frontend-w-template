@@ -26,6 +26,9 @@ export default function useLocales() {
 
   const t = useMemo(() => {
     return (key: string) => {
+      if (Object.prototype.hasOwnProperty.call(messages, key)) {
+        return messages[key];
+      }
       return key.split('.').reduce((acc: any, part) => acc?.[part], messages) ?? key;
     };
   }, [messages]);

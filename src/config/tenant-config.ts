@@ -26,5 +26,11 @@ export const tenantConfig: Record<
       customer: 'Müşteri',
       appointment: 'Randevu'
     }
+  },
+  clinic: {
+    labels: {
+      customer: 'Hasta',
+      appointment: 'Randevu'
+    }
   }
 };

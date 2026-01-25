@@ -28,5 +28,34 @@
   "others": "Autres",
   "fire": "Feu",
   "gitbook": "GitBook",
-  "home": "Accueil"
+  "home": "Accueil",
+  "dashboard": {
+  "title": "Dashboard",
+  "cards": {
+    "revenue": {
+      "hotel": "Total Revenue",
+      "tourism": "Total Revenue",
+      "barber": "Total Revenue",
+      "clinic": "Total Revenue"
+    },
+    "bookings": {
+      "hotel": "Total Bookings",
+      "tourism": "Total Bookings",
+      "barber": "Total Appointments",
+      "clinic": "Total Appointments"
+    },
+    "occupancy": {
+      "hotel": "Occupied Rooms",
+      "tourism": "Active Tours",
+      "barber": "Occupied Chairs",
+      "clinic": "Active Patients"
+    },
+    "today": {
+      "hotel": "Check-ins Today",
+      "tourism": "Check-ins Today",
+      "barber": "Appointments Today",
+      "clinic": "Appointments Today"
+    }
+  }
+}
 }

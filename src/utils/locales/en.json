@@ -37,18 +37,48 @@
   "chat": "Chat",
   "call-log": "Call Log",
   "services": "Services",
-  "dashboard": "Dashboard",
+  "dashboard": {
+  "title": "Dashboard",
+  "cards": {
+    "revenue": {
+      "hotel": "Total Revenue",
+      "tourism": "Total Revenue",
+      "barber": "Total Revenue",
+      "clinic": "Total Revenue"
+    },
+    "bookings": {
+      "hotel": "Total Bookings",
+      "tourism": "Total Bookings",
+      "barber": "Total Appointments",
+      "clinic": "Total Appointments"
+    },
+    "occupancy": {
+      "hotel": "Occupied Rooms",
+      "tourism": "Active Tours",
+      "barber": "Occupied Chairs",
+      "clinic": "Active Patients"
+    },
+    "today": {
+      "hotel": "Check-ins Today",
+      "tourism": "Check-ins Today",
+      "barber": "Appointments Today",
+      "clinic": "Appointments Today"
+    }
+  }
+},
   
   "labels": {
   "customer": {
     "hotel": "Guest",
     "tourism": "Customer",
-    "barber": "Customer"
+    "barber": "Customer",
+    "clinic": "Patient"
   },
   "appointment": {
     "hotel": "Reservation",
     "tourism": "Tour",
-    "barber": "Appointment"
+    "barber": "Appointment",
+    "clinic": "Appointment"
   }
 }
 
