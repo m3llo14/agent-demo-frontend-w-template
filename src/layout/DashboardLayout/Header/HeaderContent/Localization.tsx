@@ -140,6 +140,18 @@ export default function Localization() {
                         }
                       />
                     </ListItemButton>
+                    <ListItemButton selected={i18n === 'tr'} onClick={() => handleListItemClick('tr')}>
+                      <ListItemText
+                        primary={
+                          <Grid container>
+                            <Typography sx={{ color: 'text.primary' }}>Türkçe</Typography>
+                            <Typography variant="caption" sx={{ color: 'text.secondary', ml: '8px' }}>
+                              (Turkish)
+                            </Typography>
+                          </Grid>
+                        }
+                      />
+                    </ListItemButton>
                     <ListItemButton selected={i18n === 'zh'} onClick={() => handleListItemClick('zh')}>
                       <ListItemText
                         primary={

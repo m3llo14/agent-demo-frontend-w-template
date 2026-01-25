@@ -1,15 +1,18 @@
 'use client';
 
 import { useMemo } from 'react';
+import useConfig from 'hooks/useConfig';
 import en from './en.json';
 import fr from './fr.json';
 import ro from './ro.json';
+import tr from './tr.json';
 import zh from './zh.json';
 
 const LOCALES: Record<string, any> = {
   en,
   fr,
   ro,
+  tr,
   zh
 };
 
@@ -20,7 +23,8 @@ const getDefaultLang = () => {
 };
 
 export default function useLocales() {
-  const lang = getDefaultLang();
+  const { i18n } = useConfig();
+  const lang = i18n ?? getDefaultLang();
 
   const messages = LOCALES[lang] ?? LOCALES.en;
 

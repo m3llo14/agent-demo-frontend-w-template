@@ -56,6 +56,12 @@
       "barber": "Appointments Today",
       "clinic": "Appointments Today"
     }
+  },
+  "repeatCustomerRate": "Repeat customer rate",
+  "range": {
+    "today": "Today",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   }
 }
 }

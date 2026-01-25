@@ -37,35 +37,27 @@
   "chat": "Chat",
   "call-log": "Call Log",
   "services": "Services",
-  "dashboard": {
-  "title": "Dashboard",
-  "cards": {
-    "revenue": {
-      "hotel": "Total Revenue",
-      "tourism": "Total Revenue",
-      "barber": "Total Revenue",
-      "clinic": "Total Revenue"
-    },
-    "bookings": {
-      "hotel": "Total Bookings",
-      "tourism": "Total Bookings",
-      "barber": "Total Appointments",
-      "clinic": "Total Appointments"
-    },
-    "occupancy": {
-      "hotel": "Occupied Rooms",
-      "tourism": "Active Tours",
-      "barber": "Occupied Chairs",
-      "clinic": "Active Patients"
-    },
-    "today": {
-      "hotel": "Check-ins Today",
-      "tourism": "Check-ins Today",
-      "barber": "Appointments Today",
-      "clinic": "Appointments Today"
-    }
-  }
-},
+  "dashboard": "Dashboard",
+  "dashboard.cards.revenue.hotel": "Total Revenue",
+  "dashboard.cards.bookings.hotel": "Total Bookings",
+  "dashboard.cards.occupancy.hotel": "Occupied Rooms",
+  "dashboard.cards.today.hotel": "Check-ins Today",
+  "dashboard.cards.revenue.tourism": "Total Revenue",
+  "dashboard.cards.bookings.tourism": "Total Bookings",
+  "dashboard.cards.occupancy.tourism": "Active Tours",
+  "dashboard.cards.today.tourism": "Check-ins Today",
+  "dashboard.cards.revenue.barber": "Total Revenue",
+  "dashboard.cards.bookings.barber": "Total Appointments",
+  "dashboard.cards.occupancy.barber": "Occupied Chairs",
+  "dashboard.cards.today.barber": "Appointments Today",
+  "dashboard.cards.revenue.clinic": "Total Revenue",
+  "dashboard.cards.bookings.clinic": "Total Appointments",
+  "dashboard.cards.occupancy.clinic": "Active Patients",
+  "dashboard.cards.today.clinic": "Appointments Today",
+  "dashboard.repeatCustomerRate": "Repeat customer rate",
+  "dashboard.range.today": "Today",
+  "dashboard.range.weekly": "Weekly",
+  "dashboard.range.monthly": "Monthly",
   
   "labels": {
   "customer": {

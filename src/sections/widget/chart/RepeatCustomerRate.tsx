@@ -12,11 +12,13 @@ import RepeatCustomerChart from './RepeatCustomerChart';
 import IconButton from 'components/@extended/IconButton';
 import MoreIcon from 'components/@extended/MoreIcon';
 import MainCard from 'components/MainCard';
+import useLocales from 'utils/locales/useLocales';
 
 // ==============================|| CHART - REPEAT CUSTOMER RATE ||============================== //
 
 export default function RepeatCustomerRate() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { t } = useLocales();
 
   const open = Boolean(anchorEl);
 
@@ -31,7 +33,7 @@ export default function RepeatCustomerRate() {
   return (
     <MainCard>
       <Stack direction="row" sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="h5">Repeat customer rate</Typography>
+        <Typography variant="h5">{t('dashboard.repeatCustomerRate')}</Typography>
         <IconButton
           color="secondary"
           id="wallet-button"
@@ -58,9 +60,9 @@ export default function RepeatCustomerRate() {
             horizontal: 'right'
           }}
         >
-          <ListItemButton onClick={handleClose}>Today</ListItemButton>
-          <ListItemButton onClick={handleClose}>Weekly</ListItemButton>
-          <ListItemButton onClick={handleClose}>Monthly</ListItemButton>
+          <ListItemButton onClick={handleClose}>{t('dashboard.range.today')}</ListItemButton>
+          <ListItemButton onClick={handleClose}>{t('dashboard.range.weekly')}</ListItemButton>
+          <ListItemButton onClick={handleClose}>{t('dashboard.range.monthly')}</ListItemButton>
         </Menu>
       </Stack>
       <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center', justifyContent: 'flex-end', mt: 1 }}>

@@ -16,6 +16,8 @@ function loadLocaleData(locale: I18n) {
       return import('utils/locales/fr.json');
     case 'ro':
       return import('utils/locales/ro.json');
+    case 'tr':
+      return import('utils/locales/tr.json');
     case 'zh':
       return import('utils/locales/zh.json');
     case 'en':
