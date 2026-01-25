@@ -98,12 +98,15 @@ export default function Chat() {
   const [anchorEl, setAnchorEl] = useState<Element | (() => Element) | null | undefined>(null);
 
   useEffect(() => {
-    if (!usersLoading) {
-      const newUser = users.filter((item) => item.id?.toString() === '2')[0];
+    if (usersLoading || !users?.length) {
+      return;
+    }
+    const newUser = users.find((item) => item.id?.toString() === '2') ?? users[0];
+    if (newUser) {
       setUser(newUser);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [usersLoading]);
+  }, [usersLoading, users]);
 
   const handleClickSort = (event: React.MouseEvent<HTMLButtonElement> | undefined) => {
     setAnchorEl(event?.currentTarget);

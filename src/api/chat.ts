@@ -13,13 +13,34 @@ import { UserProfile } from 'types/user-profile';
 // ==============================|| API - CHAT ||============================== //
 
 const endpoints = {
-  key: 'api/chat',
-  list: '/users', // server URL
-  update: '/filter' // server URL
+  key: '/api/chat',
+  list: '/users',
+  update: '/filter'
+};
+
+const localFetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+  return response.json();
+};
+
+const localFetcherPost = async (args: string | [string, Record<string, any>]) => {
+  const [url, body] = Array.isArray(args) ? args : [args, {}];
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+  return response.json();
 };
 
 export function useGetUsers() {
-  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, fetcher, {
+  const { data, isLoading, error, isValidating } = useSWR(endpoints.key + endpoints.list, localFetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -42,7 +63,7 @@ export function useGetUsers() {
 export function useGetUserChat(userName: string) {
   const URL = [endpoints.key + endpoints.update, { user: userName, endpoints: 'chat' }];
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcherPost, {
+  const { data, isLoading, error, isValidating } = useSWR(URL, localFetcherPost, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false

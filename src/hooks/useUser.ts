@@ -14,23 +14,19 @@ export default function useUser() {
   if (session) {
     const user = session?.user;
     const provider = session?.provider;
-    let thumb = user?.image || '/assets/images/users/avatar-1.png';
-    if (provider === 'cognito') {
-      const email = user?.email?.split('@');
-      user!.name = email ? email[0] : 'Jone Doe';
-    }
-
-    if (!user?.image) {
-      user!.image = '/assets/images/users/avatar-1.png';
-      thumb = '/assets/images/users/avatar-thumb-1.png';
-    }
+    const email = user?.email || '';
+    const fallbackName = email ? email.split('@')[0] : 'User';
+    const displayName = user?.name || fallbackName;
+    const avatar = user?.image || '/assets/images/users/avatar-1.png';
+    const thumb = user?.image ? avatar : '/assets/images/users/avatar-thumb-1.png';
+    const role = user?.backendUser?.role || user?.role || 'merchant_admin';
 
     const newUser: UserProps = {
-      name: user?.name || 'Jone Doe',
-      email: user?.email || 'doe@codedthemes.com',
-      avatar: user?.image || '/assets/images/users/avatar-1.png',
+      name: displayName,
+      email: email || 'user@example.com',
+      avatar,
       thumb,
-      role: user?.role || 'merchant_admin'
+      role
     };
 
     return newUser;

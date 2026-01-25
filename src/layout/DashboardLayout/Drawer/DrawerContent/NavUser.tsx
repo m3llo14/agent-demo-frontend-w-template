@@ -3,7 +3,6 @@ import { useState, MouseEvent } from 'react';
 // next
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
 
 // material-ui
 import { styled } from '@mui/material/styles';
@@ -121,12 +120,6 @@ export default function UserList() {
         transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        <MenuItem component={Link} href="#!" onClick={handleClose}>
-          Profile
-        </MenuItem>
-        <MenuItem component={Link} href="#!" onClick={handleClose}>
-          My account
-        </MenuItem>
       </Menu>
     </Box>
   );

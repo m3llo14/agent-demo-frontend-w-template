@@ -12,6 +12,9 @@ declare module 'next-auth' {
   interface User {
     id?: string;
     accessToken?: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
     backendUser?: {
       role?: string;
       sectorId?: string;
@@ -39,6 +42,9 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
+    name?: string | null;
+    email?: string | null;
+    picture?: string | null;
     backendUser?: {
       role?: string;
       sectorId?: string;
@@ -111,9 +117,17 @@ export const authOptions: NextAuthOptions = {
           const rawUser = payload?.user ?? {};
           const userId = extractUserId(tokenPayload, credentials?.email);
 
+          const fullName = [rawUser?.firstname, rawUser?.lastname].filter(Boolean).join(' ').trim();
+          const tokenEmail = tokenPayload?.email;
+          const resolvedEmail = rawUser?.email || credentials?.email || tokenEmail || null;
+          const fallbackName = resolvedEmail ? String(resolvedEmail).split('@')[0] : null;
+
           return {
             id: String(userId),
             accessToken,
+            name: fullName || rawUser?.name || fallbackName,
+            email: resolvedEmail,
+            image: rawUser?.avatar || rawUser?.image || null,
             backendUser: {
               role: rawUser.role ?? tokenPayload.role,
               sectorId: tokenPayload.sectorId,
@@ -133,6 +147,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.accessToken = user.accessToken;
         token.backendUser = user.backendUser;
+        token.name = user.name ?? token.name;
+        token.email = user.email ?? token.email;
+        token.picture = user.image ?? token.picture;
       }
       return token;
     },
@@ -141,6 +158,9 @@ export const authOptions: NextAuthOptions = {
       session.user = {
         ...(session.user ?? {}),
         accessToken: token.accessToken,
+        name: (token as any).name ?? session.user?.name ?? null,
+        email: (token as any).email ?? session.user?.email ?? null,
+        image: (token as any).picture ?? session.user?.image ?? null,
         backendUser: token.backendUser
       };
       return session;

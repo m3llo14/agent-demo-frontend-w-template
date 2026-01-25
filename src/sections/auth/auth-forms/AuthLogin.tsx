@@ -31,7 +31,6 @@ import { Formik } from 'formik';
 // project-imports
 import IconButton from 'components/@extended/IconButton';
 import AnimateButton from 'components/@extended/AnimateButton';
-import FirebaseSocial from './FirebaseSocial';
 import { fetcher } from 'utils/axios';
 import { APP_DEFAULT_PATH } from 'config';
 
@@ -245,7 +244,6 @@ export default function AuthLogin({ providers, csrfToken }: any) {
       )}
       {!providers && (
         <Box sx={{ mt: 3 }}>
-          {/* <FirebaseSocial /> */}
         </Box>
       )}
     </>
