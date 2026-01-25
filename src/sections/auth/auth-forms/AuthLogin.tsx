@@ -245,7 +245,7 @@ export default function AuthLogin({ providers, csrfToken }: any) {
       )}
       {!providers && (
         <Box sx={{ mt: 3 }}>
-          <FirebaseSocial />
+          {/* <FirebaseSocial /> */}
         </Box>
       )}
     </>

@@ -5,30 +5,52 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 // third-party
 import axiosPlain from 'axios';
 
-// project imports
-import axios from 'utils/axios';
-import type { TenantType, UserRole } from 'types/auth';
-
-
-
+// ==============================
+// TYPE AUGMENTATION
+// ==============================
 declare module 'next-auth' {
   interface User {
+    id?: string;
     accessToken?: string;
-    role?: UserRole;
-    tenantType?: TenantType;
-    tenantId?: string;
+    backendUser?: {
+      role?: string;
+      sectorId?: string;
+      sectorType?: string;
+      merchantId?: string;
+    };
+  }
+
+  interface Session {
+    user?: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      accessToken?: string;
+      backendUser?: {
+        role?: string;
+        sectorId?: string;
+        sectorType?: string;
+        merchantId?: string;
+      };
+    };
   }
 }
 
-const ROLE_VALUES: UserRole[] = ['SUPER_ADMIN', 'MERCHANT_ADMIN'];
-const TENANT_VALUES: TenantType[] = ['hotel', 'tourism', 'barber'];
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
+    backendUser?: {
+      role?: string;
+      sectorId?: string;
+      sectorType?: string;
+      merchantId?: string;
+    };
+  }
+}
 
-const coerceRole = (value?: string | null): UserRole | undefined =>
-  value && ROLE_VALUES.includes(value as UserRole) ? (value as UserRole) : undefined;
-
-const coerceTenantType = (value?: string | null): TenantType | undefined =>
-  value && TENANT_VALUES.includes(value as TenantType) ? (value as TenantType) : undefined;
-
+// ==============================
+// HELPERS
+// ==============================
 const decodeJwtPayload = (token: string): Record<string, any> => {
   const part = token.split('.')[1];
   if (!part) return {};
@@ -44,178 +66,92 @@ const decodeJwtPayload = (token: string): Record<string, any> => {
 };
 
 const extractUserId = (payload: Record<string, any>, fallback?: string) =>
-  payload?.sub || payload?.userId || payload?.id || payload?._id || payload?.user?.id || fallback;
+  payload?.sub ||
+  payload?.userId ||
+  payload?.id ||
+  payload?._id ||
+  payload?.user?.id ||
+  fallback;
 
+// ==============================
+// AUTH OPTIONS
+// ==============================
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET_KEY,
+  secret: process.env.NEXTAUTH_SECRET,
+
   providers: [
     CredentialsProvider({
       id: 'login',
       name: 'login',
       credentials: {
-        email: { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter Email' },
-        password: { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter Password' },
-        identifier: { name: 'identifier', label: 'Identifier', type: 'text', placeholder: 'Enter Identifier' }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' }
       },
+
       async authorize(credentials) {
         try {
-          const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000').replace(/\/$/, '');
-          const baseNoApi = apiBaseUrl.endsWith('/api') ? apiBaseUrl.slice(0, -4) : apiBaseUrl;
-          const loginUrls = Array.from(
-            new Set([`${apiBaseUrl}/auth/login`, `${baseNoApi}/auth/login`, `${baseNoApi}/api/auth/login`])
-          );
+          const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/$/, '');
+          const response = await axiosPlain.post(`${apiBaseUrl}/auth/login`, {
+            identifier: credentials?.email,
+            password: credentials?.password
+          });
 
-          let response;
-          let lastError: unknown;
-
-          for (const url of loginUrls) {
-            try {
-              response = await axiosPlain.post(url, {
-                identifier: credentials?.email || (credentials as any)?.identifier,
-                password: credentials?.password
-              });
-              break;
-            } catch (error) {
-              lastError = error;
-            }
-          }
-
-          if (!response) {
-            throw lastError || new Error('Login failed');
-          }
-
-          const rawPayload = response?.data;
-          let payload: any = rawPayload || {};
-          if (typeof rawPayload === 'string') {
-            try {
-              payload = JSON.parse(rawPayload);
-            } catch {
-              payload = rawPayload;
-            }
-          }
-          const data = payload?.data ?? payload;
+          const payload = response.data?.data ?? response.data;
           const accessToken =
-            data?.access_token ||
-            data?.accessToken ||
             payload?.access_token ||
             payload?.accessToken ||
-            data?.token ||
             payload?.token ||
-            data?.jwt ||
             payload?.jwt;
 
           if (!accessToken) {
-            throw new Error(payload?.message || payload?.error?.message || 'Login failed');
+            throw new Error('Login failed');
           }
 
           const tokenPayload = decodeJwtPayload(accessToken);
-          const rawUser = data?.user || payload?.user || data?.profile || payload?.profile || data?.account || payload?.account;
-          const fallbackUserId = extractUserId(tokenPayload, credentials?.email || (credentials as any)?.identifier);
-          const fallbackUser = {
-            id: fallbackUserId,
-            email: tokenPayload?.email || credentials?.email || (credentials as any)?.identifier
-          };
-          const user = { ...fallbackUser, ...(rawUser || {}) };
-
-          if (!user?.id) {
-            throw new Error(payload?.message || 'Login failed');
-          }
+          const rawUser = payload?.user ?? {};
+          const userId = extractUserId(tokenPayload, credentials?.email);
 
           return {
-            ...user,
-            id: String(user.id),
+            id: String(userId),
             accessToken,
-            role: coerceRole(user.role) || coerceRole(tokenPayload.role),
-            tenantId: tokenPayload.merchantId || tokenPayload.tenantId,
-            tenantType: coerceTenantType(tokenPayload.tenantType)
+            backendUser: {
+              role: rawUser.role ?? tokenPayload.role,
+              sectorId: tokenPayload.sectorId,
+              sectorType: tokenPayload.sectorType,
+              merchantId: tokenPayload.merchantId
+            }
           };
         } catch (e: any) {
-          const errorMessage = e?.message || e?.response?.data?.message || 'Something went wrong!';
-          throw new Error(errorMessage);
-        }
-      }
-    }),
-    CredentialsProvider({
-      id: 'register',
-      name: 'Register',
-      credentials: {
-        firstname: { name: 'firstname', label: 'Firstname', type: 'text', placeholder: 'Enter Firstname' },
-        lastname: { name: 'lastname', label: 'Lastname', type: 'text', placeholder: 'Enter Lastname' },
-        email: { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter Email' },
-        company: { name: 'company', label: 'Company', type: 'text', placeholder: 'Enter Company' },
-        password: { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter Password' }
-      },
-      async authorize(credentials) {
-        try {
-          const user = await axios.post('/api/account/register', {
-            firstName: credentials?.firstname,
-            lastName: credentials?.lastname,
-            company: credentials?.company,
-            password: credentials?.password,
-            email: credentials?.email
-          });
-
-          if (user) {
-           // users.push(user.data);
-            return user.data;
-          }
-        } catch (e: any) {
-          const errorMessage = e?.message || e?.response?.data?.message || 'Something went wrong!';
-          throw new Error(errorMessage);
+          throw new Error(e?.message || 'Login failed');
         }
       }
     })
   ],
-  callbacks: {
-    jwt: async ({ token, user, account }) => {
-      const fallbackRole: UserRole = 'MERCHANT_ADMIN';
-      const fallbackTenantType: TenantType = 'hotel';
 
+  callbacks: {
+    jwt: async ({ token, user }) => {
       if (user) {
         token.accessToken = user.accessToken;
-        token.id = user.id;
-        token.provider = account?.provider;
-        token.role = coerceRole(user.role) || fallbackRole;
-        token.tenantType = coerceTenantType(user.tenantType) || fallbackTenantType;
-        token.tenantId = user.tenantId;
+        token.backendUser = user.backendUser;
       }
-
-      if (!token.role) token.role = fallbackRole;
-      if (!token.tenantType) token.tenantType = fallbackTenantType;
-
       return token;
     },
+
     session: ({ session, token }) => {
-      if (token) {
-        session.id = token.id;
-        session.provider = token.provider;
-        session.token = token;
-        session.user = {
-          ...session.user,
-          role: token.role,
-          tenantType: token.tenantType,
-          tenantId: token.tenantId
-        };
-      }
+      session.user = {
+        ...(session.user ?? {}),
+        accessToken: token.accessToken,
+        backendUser: token.backendUser
+      };
       return session;
-    },
-    async signIn(params) {
-      // Prevent JWT token issuance on registration
-      if (params.account?.provider === 'register') {
-        return `${process.env.NEXTAUTH_URL}login`;
-      }
-      return true;
     }
   },
+
   session: {
-    strategy: 'jwt',
-    maxAge: Number(process.env.NEXT_APP_JWT_TIMEOUT!)
+    strategy: 'jwt'
   },
-  jwt: {
-    secret: process.env.NEXT_APP_JWT_SECRET
-  },
+
   pages: {
-    signIn: '/login',
-    newUser: '/register'
+    signIn: '/login'
   }
 };

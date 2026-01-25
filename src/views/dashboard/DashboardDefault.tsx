@@ -11,9 +11,12 @@ import Typography from '@mui/material/Typography';
 // project-imports
 import EcommerceDataCard from 'components/cards/statistics/EcommerceDataCard';
 import { GRID_COMMON_SPACING } from 'config';
-
 import EcommerceDataChart from 'sections/widget/chart/EcommerceDataChart';
 import RepeatCustomerRate from 'sections/widget/chart/RepeatCustomerRate';
+import { mapAuthUser } from 'utils/auth-mapper';
+
+// i18n
+import useLocales from 'utils/locales/useLocales';
 
 // assets
 import { ArrowDown, ArrowUp, Book, Calendar, CloudChange, Wallet3 } from '@wandersonalwes/iconsax-react';
@@ -23,41 +26,25 @@ import { ArrowDown, ArrowUp, Book, Calendar, CloudChange, Wallet3 } from '@wande
 export default function DashboardDefault() {
   const theme = useTheme();
   const { data: session } = useSession();
+  const { t } = useLocales();
 
-  let tenantOverride: string | null = null;
-  if (typeof window !== 'undefined') {
-    tenantOverride = new URLSearchParams(window.location.search).get('tenantType');
+  const auth = session?.user?.backendUser
+    ? mapAuthUser(session.user.backendUser)
+    : null;
+
+  // super admin bu dashboard'u görmesin
+  if (!auth || auth.role === 'SUPER_ADMIN' || !auth.tenantType) {
+    return null;
   }
 
-  const tenantType =
-    tenantOverride === 'hotel' || tenantOverride === 'tourism'
-      ? tenantOverride
-      : session?.user?.tenantType || 'hotel';
-
-  const cardTitles = {
-    hotel: {
-      revenue: 'Total Revenue',
-      bookings: 'Total Bookings',
-      occupancy: 'Occupied Rooms',
-      today: 'Check-ins Today'
-    },
-    tourism: {
-      revenue: 'Total Revenue',
-      bookings: 'Total Trips',
-      occupancy: 'Active Routes',
-      today: 'Departures Today'
-    }
-  } as const;
+  const tenantType = auth.tenantType;
 
   return (
     <Grid container spacing={GRID_COMMON_SPACING}>
-      <Grid size={12}>
-{/*         <WelcomeBanner /> */}
-      </Grid>
       {/* row 1 */}
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title={cardTitles[tenantType].revenue}
+          title={t(`dashboard.cards.revenue.${tenantType}`)}
           count="$3000"
           iconPrimary={<Wallet3 />}
           percentage={
@@ -69,9 +56,10 @@ export default function DashboardDefault() {
           <EcommerceDataChart color={theme.palette.primary.main} />
         </EcommerceDataCard>
       </Grid>
+
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title={cardTitles[tenantType].bookings}
+          title={t(`dashboard.cards.bookings.${tenantType}`)}
           count="290+"
           color="warning"
           iconPrimary={<Book />}
@@ -84,9 +72,10 @@ export default function DashboardDefault() {
           <EcommerceDataChart color={theme.palette.warning.dark} />
         </EcommerceDataCard>
       </Grid>
+
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title={cardTitles[tenantType].occupancy}
+          title={t(`dashboard.cards.occupancy.${tenantType}`)}
           count="1,568"
           color="success"
           iconPrimary={<Calendar />}
@@ -99,9 +88,10 @@ export default function DashboardDefault() {
           <EcommerceDataChart color={theme.palette.success.darker} />
         </EcommerceDataCard>
       </Grid>
+
       <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
         <EcommerceDataCard
-          title={cardTitles[tenantType].today}
+          title={t(`dashboard.cards.today.${tenantType}`)}
           count="20"
           color="error"
           iconPrimary={<CloudChange />}
@@ -114,21 +104,11 @@ export default function DashboardDefault() {
           <EcommerceDataChart color={theme.palette.error.dark} />
         </EcommerceDataCard>
       </Grid>
+
       {/* row 2 */}
-      <Grid size={{ xs: 12, md: 8, lg: 12 }}>
-        <Grid container spacing={GRID_COMMON_SPACING}>
-          <Grid size={12}>
-            <RepeatCustomerRate />
-          </Grid>
-          <Grid size={12}>
-  {/*           <ProjectOverview /> */}
-          </Grid>
-        </Grid>
+      <Grid size={{ xs: 12 }}>
+        <RepeatCustomerRate />
       </Grid>
-
-      {/* row 3 */}
-
     </Grid>
   );
 }
-

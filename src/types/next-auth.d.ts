@@ -16,9 +16,16 @@ declare module 'next-auth' {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      accessToken?: string;
       role?: UserRole;
       tenantType?: TenantType;
       tenantId?: string | null;
+      backendUser?: {
+        role?: string;
+        sectorId?: string;
+        sectorType?: string;
+        merchantId?: string;
+      };
     };
   }
 }
@@ -28,5 +35,11 @@ declare module 'next-auth/jwt' {
     role?: UserRole;
     tenantType?: TenantType;
     tenantId?: string | null;
+    backendUser?: {
+      role?: string;
+      sectorId?: string;
+      sectorType?: string;
+      merchantId?: string;
+    };
   }
 }

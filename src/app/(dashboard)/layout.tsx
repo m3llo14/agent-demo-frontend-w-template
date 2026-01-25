@@ -8,8 +8,8 @@ import RoleGuard from 'utils/route-guard/RoleGuard';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
-      <RoleGuard allowedRoles={['super_admin', 'merchant_admin']}>
-      <DashboardLayout>{children}</DashboardLayout>
+      <RoleGuard allowedRoles={['SUPER_ADMIN', 'MERCHANT_ADMIN']}>
+        <DashboardLayout>{children}</DashboardLayout>
       </RoleGuard>
     </AuthGuard>
   );

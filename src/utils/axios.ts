@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
 
-const axiosServices = axios.create({ baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000' });
+const axiosServices = axios.create({ baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001' });
 
 // ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
 
@@ -11,8 +11,9 @@ const axiosServices = axios.create({ baseURL: process.env.NEXT_PUBLIC_API_URL ||
 axiosServices.interceptors.request.use(
   async (config) => {
     const session = await getSession();
-    if (session?.token.accessToken) {
-      config.headers['Authorization'] = `Bearer ${session?.token.accessToken}`;
+    const accessToken = session?.user?.accessToken;
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -25,11 +26,14 @@ if (typeof window !== 'undefined') {
   axiosServices.interceptors.response.use(
     (response) => response,
     async (error) => {
-      if (error.response.status === 401 && !window.location.href.includes('/login')) {
+      const status = error?.response?.status;
+      if (status === 401 && !window.location.href.includes('/login')) {
         await signOut();
         window.location.pathname = '/login';
       }
-      return Promise.reject((error.response && error.response.data) || 'Wrong Services');
+      const responseData = error?.response?.data;
+      const message = responseData?.message || error?.message || 'Wrong Services';
+      return Promise.reject(message);
     }
   );
 }

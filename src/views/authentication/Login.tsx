@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 
 // project-imports
 import Logo from 'components/logo';
-import useUser from 'hooks/useUser';
 import AuthSocButton from 'sections/auth/AuthSocButton';
 import AuthDivider from 'sections/auth/AuthDivider';
 import AuthWrapper2 from 'sections/auth/AuthWrapper2';
@@ -25,7 +24,6 @@ const imgGoogle = '/assets/images/auth/google.svg';
 // ================================|| LOGIN ||================================ //
 
 export default function Login2Page() {
-  const user = useUser();
 
   return (
     <AuthWrapper2>
@@ -33,7 +31,7 @@ export default function Login2Page() {
         <Grid sx={{ textAlign: 'center' }} size={12}>
           <Logo />
         </Grid>
-        <Grid size={12}>
+{/*         <Grid size={12}>
           <Grid container spacing={1}>
             <Grid size={12}>
               <AuthSocButton>
@@ -51,24 +49,24 @@ export default function Login2Page() {
               </AuthSocButton>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid size={12}>
+        </Grid> */}
+{/*         <Grid size={12}>
           <AuthDivider>
             <Typography variant="body1">OR</Typography>
           </AuthDivider>
-        </Grid>
+        </Grid> */}
         <Grid size={12}>
           <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'baseline', mb: { xs: -0.5, sm: 0.5 } }}>
             <Typography variant="h3">Login</Typography>
-            <Typography
+ {/*            <Typography
               component={Link}
-              href={user ? '/auth/register2' : '/register2'}
+              href="/register2"
               variant="body1"
               sx={{ textDecoration: 'none' }}
               color="primary"
             >
               Don&apos;t have an account?
-            </Typography>
+            </Typography> */}
           </Stack>
         </Grid>
         <Grid size={12}>

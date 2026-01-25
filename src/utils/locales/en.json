@@ -37,6 +37,21 @@
   "chat": "Chat",
   "call-log": "Call Log",
   "services": "Services",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  
+  "labels": {
+  "customer": {
+    "hotel": "Guest",
+    "tourism": "Customer",
+    "barber": "Customer"
+  },
+  "appointment": {
+    "hotel": "Reservation",
+    "tourism": "Tour",
+    "barber": "Appointment"
+  }
+}
 
 }
+
+
