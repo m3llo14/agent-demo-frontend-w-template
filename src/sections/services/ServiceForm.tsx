@@ -15,18 +15,17 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
 // project-imports
-import { getServiceUiConfig, ServiceFieldConfig, TenantType } from './tenantConfig';
-
-type FormValues = Record<string, string>;
+import { getServiceUiConfig, ServiceFieldConfig, ServiceFormValues } from './tenantConfig';
+import { TenantType } from 'types/service';
 
 interface Props {
   tenantType: TenantType;
   onCancel: () => void;
-  onSubmit?: (values: FormValues) => void;
+  onSubmit?: (values: ServiceFormValues) => void;
 }
 
-const buildInitialValues = (fields: ServiceFieldConfig[]): FormValues =>
-  fields.reduce<FormValues>((acc, field) => {
+const buildInitialValues = (fields: ServiceFieldConfig[]): ServiceFormValues =>
+  fields.reduce<ServiceFormValues>((acc, field) => {
     acc[field.key] = '';
     return acc;
   }, {});
@@ -36,7 +35,7 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit }: Props) {
   const { form } = config;
 
   const initialValues = useMemo(() => buildInitialValues(form.fields), [form.fields]);
-  const [values, setValues] = useState<FormValues>(initialValues);
+  const [values, setValues] = useState<ServiceFormValues>(initialValues);
 
   useEffect(() => {
     setValues(initialValues);
