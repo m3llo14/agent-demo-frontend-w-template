@@ -37,6 +37,80 @@
   "chat": "Sohbet",
   "call-log": "Çağrı Kaydı",
   "services": "Hizmetler",
+  "common": {
+    "save": "Kaydet",
+    "update": "Güncelle",
+    "cancel": "İptal",
+    "actions": "İşlemler",
+    "loading": "Yükleniyor...",
+    "edit": "Düzenle",
+    "delete": "Sil"
+  },
+  "servicesPage": {
+    "list": {
+      "rooms": "Odalar",
+      "trips": "Turlar"
+    },
+    "add": {
+      "room": "Oda Ekle",
+      "trip": "Tur Ekle"
+    },
+    "form": {
+      "addRoomTitle": "Oda Ekle",
+      "editRoomTitle": "Oda Düzenle",
+      "addTripTitle": "Tur Ekle",
+      "editTripTitle": "Tur Düzenle"
+    },
+    "fields": {
+      "roomName": "Oda Adı",
+      "roomPrice": "Oda Ücreti",
+      "capacity": "Kapasite",
+      "stock": "Stok",
+      "maxAdults": "Maks. Yetişkin",
+      "maxChildren": "Maks. Çocuk",
+      "description": "Açıklama",
+      "tripName": "Tur Adı",
+      "adultPrice": "Yetişkin Ücreti",
+      "childPrice": "Çocuk Ücreti",
+      "duration": "Süre",
+      "groupCapacity": "Grup Kapasitesi",
+      "guideId": "Rehber ID",
+      "startDate": "Başlangıç Tarihi",
+      "endDate": "Bitiş Tarihi",
+      "highlights": "Öne Çıkanlar"
+    },
+    "adornments": {
+      "perPerson": "kişi başı",
+      "perNight": "gecelik",
+      "days": "gün",
+      "pax": "kişi",
+      "rooms": "oda"
+    },
+    "table": {
+      "name": "Ad",
+      "pricing": "Fiyatlandırma",
+      "duration": "Süre",
+      "capacity": "Kapasite",
+      "targetSpecialist": "Hedef Uzman",
+      "startDate": "Başlangıç",
+      "endDate": "Bitiş",
+      "price": "Fiyat",
+      "description": "Açıklama",
+      "stock": "Stok",
+      "maxAdults": "Maks. Yetişkin",
+      "maxChildren": "Maks. Çocuk"
+    },
+    "empty": "Henüz hizmet yok.",
+    "confirmDelete": "Bu hizmeti silmek istediğinize emin misiniz?",
+    "messages": {
+      "createSuccess": "Hizmet başarıyla eklendi.",
+      "createError": "Hizmet eklenemedi.",
+      "updateSuccess": "Hizmet başarıyla güncellendi.",
+      "updateError": "Hizmet güncellenemedi.",
+      "deleteSuccess": "Hizmet başarıyla silindi.",
+      "deleteError": "Hizmet silinemedi."
+    }
+  },
   "dashboard": "Gösterge Paneli",
 
   "dashboard.cards.revenue.hotel": "Toplam Gelir",

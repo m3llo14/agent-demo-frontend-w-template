@@ -17,11 +17,15 @@ import TextField from '@mui/material/TextField';
 // project-imports
 import { getServiceUiConfig, ServiceFieldConfig, ServiceFormValues } from './tenantConfig';
 import { TenantType } from 'types/service';
+import useLocales from 'utils/locales/useLocales';
 
 interface Props {
   tenantType: TenantType;
   onCancel: () => void;
   onSubmit?: (values: ServiceFormValues) => void;
+  initialValues?: ServiceFormValues;
+  title?: string;
+  submitLabel?: string;
 }
 
 const buildInitialValues = (fields: ServiceFieldConfig[]): ServiceFormValues =>
@@ -30,11 +34,15 @@ const buildInitialValues = (fields: ServiceFieldConfig[]): ServiceFormValues =>
     return acc;
   }, {});
 
-export default function ServiceForm({ tenantType, onCancel, onSubmit }: Props) {
+export default function ServiceForm({ tenantType, onCancel, onSubmit, initialValues: initialValuesProp, title, submitLabel }: Props) {
   const config = useMemo(() => getServiceUiConfig(tenantType), [tenantType]);
   const { form } = config;
+  const { t } = useLocales();
 
-  const initialValues = useMemo(() => buildInitialValues(form.fields), [form.fields]);
+  const initialValues = useMemo(
+    () => (initialValuesProp ? { ...buildInitialValues(form.fields), ...initialValuesProp } : buildInitialValues(form.fields)),
+    [form.fields, initialValuesProp]
+  );
   const [values, setValues] = useState<ServiceFormValues>(initialValues);
 
   useEffect(() => {
@@ -51,11 +59,13 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit }: Props) {
   };
 
   const renderField = (field: ServiceFieldConfig) => {
+    const label = t(field.labelKey);
+    const placeholder = t(field.placeholderKey ?? field.labelKey);
     const startAdornment = field.adornment?.start ? (
-      <InputAdornment position="start">{field.adornment.start}</InputAdornment>
+      <InputAdornment position="start">{t(field.adornment.start)}</InputAdornment>
     ) : undefined;
     const endAdornment = field.adornment?.end ? (
-      <InputAdornment position="end">{field.adornment.end}</InputAdornment>
+      <InputAdornment position="end">{t(field.adornment.end)}</InputAdornment>
     ) : undefined;
 
     const inputProps = startAdornment || endAdornment ? { startAdornment, endAdornment } : undefined;
@@ -65,11 +75,11 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit }: Props) {
     return (
       <Grid key={field.key} size={gridSize}>
         <Stack sx={{ gap: 1 }}>
-          <InputLabel htmlFor={fieldId}>{field.label}</InputLabel>
+          <InputLabel htmlFor={fieldId}>{label}</InputLabel>
           <TextField
             id={fieldId}
             name={field.key}
-            placeholder={field.placeholder}
+            placeholder={placeholder}
             type={field.type}
             value={values[field.key] ?? ''}
             onChange={handleChange(field.key)}
@@ -86,7 +96,7 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <DialogTitle>{form.title}</DialogTitle>
+      <DialogTitle>{t(title || form.titleKey)}</DialogTitle>
       <Divider />
       <DialogContent sx={{ p: 2.5 }}>
         <Grid container spacing={2}>
@@ -96,10 +106,10 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit }: Props) {
       <Divider />
       <DialogActions sx={{ p: 2.5 }}>
         <Button color="secondary" onClick={onCancel}>
-          {form.cancelLabel}
+          {t(form.cancelLabelKey)}
         </Button>
         <Button type="submit" variant="contained">
-          {form.submitLabel}
+          {t(submitLabel || form.submitLabelKey)}
         </Button>
       </DialogActions>
     </form>

@@ -1,4 +1,4 @@
-import { PricingTier, ServiceCreateInput, ServiceRecord, TenantType } from 'types/service';
+import { PricingTier, ServiceCreateInput, ServiceRecord, TenantType, TourismService } from 'types/service';
 
 type AdornmentConfig = {
   start?: string;
@@ -7,8 +7,8 @@ type AdornmentConfig = {
 
 export type ServiceFieldConfig = {
   key: string;
-  label: string;
-  placeholder?: string;
+  labelKey: string;
+  placeholderKey?: string;
   type?: string;
   multiline?: boolean;
   rows?: number;
@@ -19,15 +19,17 @@ export type ServiceFieldConfig = {
 export type ServiceFormValues = Record<string, string>;
 
 export type ServiceFormConfig = {
-  title: string;
-  submitLabel: string;
-  cancelLabel: string;
+  titleKey: string;
+  editTitleKey: string;
+  submitLabelKey: string;
+  editSubmitLabelKey: string;
+  cancelLabelKey: string;
   fields: ServiceFieldConfig[];
 };
 
 export type ServiceColumnConfig = {
   id: string;
-  header: string;
+  headerKey: string;
   align?: 'left' | 'right' | 'center';
   value: (row: ServiceRecord) => string | number;
 };
@@ -37,16 +39,16 @@ export type ServiceTableConfig = {
 };
 
 export type ServiceUiConfig = {
-  listTitle: string;
-  addButtonLabel: string;
+  listTitleKey: string;
+  addButtonLabelKey: string;
   form: ServiceFormConfig;
   table: ServiceTableConfig;
 };
 
-const field = (key: string, label: string, overrides: Partial<ServiceFieldConfig> = {}): ServiceFieldConfig => ({
+const field = (key: string, labelKey: string, overrides: Partial<ServiceFieldConfig> = {}): ServiceFieldConfig => ({
   key,
-  label,
-  placeholder: label,
+  labelKey,
+  placeholderKey: labelKey,
   grid: { xs: 12, md: 6 },
   ...overrides
 });
@@ -78,59 +80,61 @@ export const resolveTenantType = (sessionTenant?: unknown, override?: string | n
 export const getServiceUiConfig = (tenantType: TenantType): ServiceUiConfig => {
   if (tenantType === 'tourism') {
     return {
-      listTitle: 'Trips',
-      addButtonLabel: 'Add Trip',
+      listTitleKey: 'servicesPage.list.trips',
+      addButtonLabelKey: 'servicesPage.add.trip',
       form: {
-        title: 'Add Trip',
-        submitLabel: 'Save',
-        cancelLabel: 'Cancel',
+        titleKey: 'servicesPage.form.addTripTitle',
+        editTitleKey: 'servicesPage.form.editTripTitle',
+        submitLabelKey: 'common.save',
+        editSubmitLabelKey: 'common.update',
+        cancelLabelKey: 'common.cancel',
         fields: [
-          field('name', 'Trip Name'),
-          moneyField('adultPrice', 'Adult Price', 'per person'),
-          moneyField('childPrice', 'Child Price', 'per person'),
-          field('duration', 'Duration', { adornment: { end: 'days' } }),
-          numberField('capacity', 'Group Capacity', 'pax'),
-          field('specialistId', 'Guide ID'),
-          dateField('startDate', 'Start Date'),
-          dateField('endDate', 'End Date'),
-          multilineField('description', 'Highlights')
+          field('name', 'servicesPage.fields.tripName'),
+          moneyField('adultPrice', 'servicesPage.fields.adultPrice', 'servicesPage.adornments.perPerson'),
+          moneyField('childPrice', 'servicesPage.fields.childPrice', 'servicesPage.adornments.perPerson'),
+          field('duration', 'servicesPage.fields.duration', { adornment: { end: 'servicesPage.adornments.days' } }),
+          numberField('capacity', 'servicesPage.fields.groupCapacity', 'servicesPage.adornments.pax'),
+          field('specialistId', 'servicesPage.fields.guideId'),
+          dateField('startDate', 'servicesPage.fields.startDate'),
+          dateField('endDate', 'servicesPage.fields.endDate'),
+          multilineField('description', 'servicesPage.fields.highlights')
         ]
       },
       table: {
         columns: [
-          { id: 'name', header: 'Name', value: (row) => row.name },
+          { id: 'name', headerKey: 'servicesPage.table.name', value: (row) => row.name },
           {
             id: 'pricing',
-            header: 'Pricing',
+            headerKey: 'servicesPage.table.pricing',
             value: (row) => (row.tenantType === 'tourism' ? formatPricingTiers(row.pricingTiers) : '—')
           },
           {
             id: 'duration',
-            header: 'Duration',
+            headerKey: 'servicesPage.table.duration',
             align: 'right',
             value: (row) => (row.tenantType === 'tourism' ? row.duration : '—')
           },
           {
             id: 'capacity',
-            header: 'Capacity',
+            headerKey: 'servicesPage.table.capacity',
             align: 'right',
             value: (row) => row.capacity
           },
           {
             id: 'specialist',
-            header: 'Target Specialist',
+            headerKey: 'servicesPage.table.targetSpecialist',
             align: 'right',
             value: (row) => (row.tenantType === 'tourism' ? row.targetSpecialistId : '—')
           },
           {
             id: 'startDate',
-            header: 'Start Date',
+            headerKey: 'servicesPage.table.startDate',
             align: 'right',
             value: (row) => (row.tenantType === 'tourism' ? row.startDate : '—')
           },
           {
             id: 'endDate',
-            header: 'End Date',
+            headerKey: 'servicesPage.table.endDate',
             align: 'right',
             value: (row) => (row.tenantType === 'tourism' ? row.endDate : '—')
           }
@@ -140,58 +144,60 @@ export const getServiceUiConfig = (tenantType: TenantType): ServiceUiConfig => {
   }
 
   return {
-    listTitle: 'Rooms',
-    addButtonLabel: 'Add Room',
+    listTitleKey: 'servicesPage.list.rooms',
+    addButtonLabelKey: 'servicesPage.add.room',
     form: {
-      title: 'Add Room',
-      submitLabel: 'Save',
-      cancelLabel: 'Cancel',
+      titleKey: 'servicesPage.form.addRoomTitle',
+      editTitleKey: 'servicesPage.form.editRoomTitle',
+      submitLabelKey: 'common.save',
+      editSubmitLabelKey: 'common.update',
+      cancelLabelKey: 'common.cancel',
       fields: [
-        field('name', 'Room Name'),
-        moneyField('price', 'Room Price', 'per night'),
-        numberField('capacity', 'Capacity', 'pax'),
-        numberField('stock', 'Stock', 'rooms'),
-        numberField('maxAdults', 'Max Adults'),
-        numberField('maxChildren', 'Max Children'),
-        multilineField('description', 'Description')
+        field('name', 'servicesPage.fields.roomName'),
+        moneyField('price', 'servicesPage.fields.roomPrice', 'servicesPage.adornments.perNight'),
+        numberField('capacity', 'servicesPage.fields.capacity', 'servicesPage.adornments.pax'),
+        numberField('stock', 'servicesPage.fields.stock', 'servicesPage.adornments.rooms'),
+        numberField('maxAdults', 'servicesPage.fields.maxAdults'),
+        numberField('maxChildren', 'servicesPage.fields.maxChildren'),
+        multilineField('description', 'servicesPage.fields.description')
       ]
     },
     table: {
       columns: [
-        { id: 'name', header: 'Name', value: (row) => row.name },
+        { id: 'name', headerKey: 'servicesPage.table.name', value: (row) => row.name },
         {
           id: 'price',
-          header: 'Price',
+          headerKey: 'servicesPage.table.price',
           align: 'right',
           value: (row) => (row.tenantType === 'hotel' ? row.price : '—')
         },
         {
           id: 'capacity',
-          header: 'Capacity',
+          headerKey: 'servicesPage.table.capacity',
           align: 'right',
           value: (row) => row.capacity
         },
         {
           id: 'description',
-          header: 'Description',
+          headerKey: 'servicesPage.table.description',
           align: 'right',
           value: (row) => (row.tenantType === 'hotel' ? row.description : '—')
         },
         {
           id: 'stock',
-          header: 'Stock',
+          headerKey: 'servicesPage.table.stock',
           align: 'right',
           value: (row) => (row.tenantType === 'hotel' ? row.stock : '—')
         },
         {
           id: 'maxAdults',
-          header: 'Max Adults',
+          headerKey: 'servicesPage.table.maxAdults',
           align: 'right',
           value: (row) => (row.tenantType === 'hotel' ? row.maxAdults : '—')
         },
         {
           id: 'maxChildren',
-          header: 'Max Children',
+          headerKey: 'servicesPage.table.maxChildren',
           align: 'right',
           value: (row) => (row.tenantType === 'hotel' ? row.maxChildren : '—')
         }
@@ -224,7 +230,8 @@ export const buildServicePayload = (tenantType: TenantType, values: ServiceFormV
       capacity: toNumber(values.capacity),
       targetSpecialistId: values.specialistId || '',
       startDate: values.startDate || '',
-      endDate: values.endDate || ''
+      endDate: values.endDate || '',
+      description: values.description || ''
     };
   }
 
@@ -237,6 +244,35 @@ export const buildServicePayload = (tenantType: TenantType, values: ServiceFormV
     stock: toNumber(values.stock),
     maxAdults: toNumber(values.maxAdults),
     maxChildren: toNumber(values.maxChildren)
+  };
+};
+
+export const mapServiceToFormValues = (service: ServiceRecord): ServiceFormValues => {
+  if (service.tenantType === 'tourism') {
+    const tourismService = service as TourismService;
+    const adult = tourismService.pricingTiers?.find((tier) => tier.name === 'Yetişkin');
+    const child = tourismService.pricingTiers?.find((tier) => tier.name === 'Çocuk');
+    return {
+      name: tourismService.name,
+      adultPrice: adult ? String(adult.price) : '',
+      childPrice: child ? String(child.price) : '',
+      duration: tourismService.duration,
+      capacity: String(tourismService.capacity ?? ''),
+      specialistId: tourismService.targetSpecialistId,
+      startDate: tourismService.startDate,
+      endDate: tourismService.endDate,
+      description: tourismService.description || ''
+    };
+  }
+
+  return {
+    name: service.name,
+    price: service.tenantType === 'hotel' ? String(service.price) : '',
+    capacity: String(service.capacity ?? ''),
+    description: service.tenantType === 'hotel' ? service.description : '',
+    stock: service.tenantType === 'hotel' ? String(service.stock) : '',
+    maxAdults: service.tenantType === 'hotel' ? String(service.maxAdults) : '',
+    maxChildren: service.tenantType === 'hotel' ? String(service.maxChildren) : ''
   };
 };
 

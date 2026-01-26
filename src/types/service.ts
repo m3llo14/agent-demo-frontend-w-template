@@ -28,6 +28,7 @@ export type TourismService = {
   targetSpecialistId: string;
   startDate: string;
   endDate: string;
+  description?: string;
 };
 
 export type ServiceRecord = HotelService | TourismService;

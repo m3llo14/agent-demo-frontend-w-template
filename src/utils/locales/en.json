@@ -37,6 +37,80 @@
   "chat": "Chat",
   "call-log": "Call Log",
   "services": "Services",
+  "common": {
+    "save": "Save",
+    "update": "Update",
+    "cancel": "Cancel",
+    "actions": "Actions",
+    "loading": "Loading...",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "servicesPage": {
+    "list": {
+      "rooms": "Rooms",
+      "trips": "Trips"
+    },
+    "add": {
+      "room": "Add Room",
+      "trip": "Add Trip"
+    },
+    "form": {
+      "addRoomTitle": "Add Room",
+      "editRoomTitle": "Edit Room",
+      "addTripTitle": "Add Trip",
+      "editTripTitle": "Edit Trip"
+    },
+    "fields": {
+      "roomName": "Room Name",
+      "roomPrice": "Room Price",
+      "capacity": "Capacity",
+      "stock": "Stock",
+      "maxAdults": "Max Adults",
+      "maxChildren": "Max Children",
+      "description": "Description",
+      "tripName": "Trip Name",
+      "adultPrice": "Adult Price",
+      "childPrice": "Child Price",
+      "duration": "Duration",
+      "groupCapacity": "Group Capacity",
+      "guideId": "Guide ID",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "highlights": "Highlights"
+    },
+    "adornments": {
+      "perPerson": "per person",
+      "perNight": "per night",
+      "days": "days",
+      "pax": "pax",
+      "rooms": "rooms"
+    },
+    "table": {
+      "name": "Name",
+      "pricing": "Pricing",
+      "duration": "Duration",
+      "capacity": "Capacity",
+      "targetSpecialist": "Target Specialist",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "price": "Price",
+      "description": "Description",
+      "stock": "Stock",
+      "maxAdults": "Max Adults",
+      "maxChildren": "Max Children"
+    },
+    "empty": "No services yet.",
+    "confirmDelete": "Are you sure you want to delete this service?",
+    "messages": {
+      "createSuccess": "Service added successfully.",
+      "createError": "Failed to add service.",
+      "updateSuccess": "Service updated successfully.",
+      "updateError": "Failed to update service.",
+      "deleteSuccess": "Service deleted successfully.",
+      "deleteError": "Failed to delete service."
+    }
+  },
   "dashboard": "Dashboard",
   "dashboard.cards.revenue.hotel": "Total Revenue",
   "dashboard.cards.bookings.hotel": "Total Bookings",

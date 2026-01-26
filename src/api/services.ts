@@ -4,20 +4,27 @@ import { useMemo } from 'react';
 import useSWR, { mutate } from 'swr';
 
 // project-imports
-import { fetcher } from 'utils/axios';
-import axiosServices from 'utils/axios';
+import axios from 'axios';
 
 // types
 import { ServiceCreateInput, ServiceListResponse, ServiceRecord, TenantType } from 'types/service';
 
 const endpoints = {
-  key: 'api/services'
+  key: '/api/services'
 };
 
 const buildKey = (tenantType: TenantType) => `${endpoints.key}?tenantType=${tenantType}`;
 
+const sameOriginConfig = { baseURL: '' };
+const publicApi = axios.create(sameOriginConfig);
+
+const fetcherServices = async (url: string) => {
+  const res = await publicApi.get(url);
+  return res.data;
+};
+
 export function useGetServices(tenantType: TenantType) {
-  const { data, isLoading, error, isValidating } = useSWR<ServiceListResponse>(buildKey(tenantType), fetcher, {
+  const { data, isLoading, error, isValidating } = useSWR<ServiceListResponse>(buildKey(tenantType), fetcherServices, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -55,7 +62,7 @@ export async function insertService(newService: ServiceCreateInput) {
   );
 
   try {
-    const response = await axiosServices.post(endpoints.key, newService);
+    const response = await publicApi.post(endpoints.key, newService);
     const createdService = response.data.service as ServiceRecord;
 
     mutate(
@@ -69,6 +76,61 @@ export async function insertService(newService: ServiceCreateInput) {
     );
 
     return createdService;
+  } catch (error) {
+    mutate(listKey);
+    throw error;
+  }
+}
+
+export async function updateService(serviceId: string, updatedService: ServiceCreateInput) {
+  const listKey = buildKey(updatedService.tenantType);
+
+  mutate(
+    listKey,
+    (currentData: ServiceListResponse | undefined) => {
+      const services = currentData?.services || [];
+      const updatedServices = services.map((service) => (service.id === serviceId ? { ...service, ...updatedService } : service));
+      return { ...currentData, services: updatedServices };
+    },
+    false
+  );
+
+  try {
+    const response = await publicApi.put(`${endpoints.key}/${serviceId}`, updatedService);
+    const savedService = response.data.service as ServiceRecord;
+
+    mutate(
+      listKey,
+      (currentData: ServiceListResponse | undefined) => {
+        const services = currentData?.services || [];
+        const updatedServices = services.map((service) => (service.id === serviceId ? savedService : service));
+        return { ...currentData, services: updatedServices };
+      },
+      false
+    );
+
+    return savedService;
+  } catch (error) {
+    mutate(listKey);
+    throw error;
+  }
+}
+
+export async function deleteService(serviceId: string, tenantType: TenantType) {
+  const listKey = buildKey(tenantType);
+
+  mutate(
+    listKey,
+    (currentData: ServiceListResponse | undefined) => {
+      const services = currentData?.services || [];
+      const filteredServices = services.filter((service) => service.id !== serviceId);
+      return { ...currentData, services: filteredServices };
+    },
+    false
+  );
+
+  try {
+    await publicApi.delete(`${endpoints.key}/${serviceId}`, { params: { tenantType } });
   } catch (error) {
     mutate(listKey);
     throw error;
