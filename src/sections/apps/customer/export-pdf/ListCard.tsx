@@ -1,8 +1,5 @@
-// material-ui
-import { useTheme } from '@mui/material/styles';
-
 // third-party
-import { Page, View, Document, StyleSheet, Image as ImageIcon, Text, Link } from '@react-pdf/renderer';
+import { Page, View, Document, StyleSheet, Image as ImageIcon, Text } from '@react-pdf/renderer';
 
 // types
 import { CustomerList } from 'types/customer';
@@ -132,134 +129,31 @@ interface Props {
 }
 
 export default function ListCard({ customer }: Props) {
-  const theme = useTheme();
-
   return (
-    <Document title={`${customer?.fatherName}`}>
+    <Document title={`${customer?.name}`}>
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
           <View style={styles.row}>
             <ImageIcon style={styles.image} src={`${avatarImage}/avatar-${!customer.avatar ? 1 : customer.avatar}.png`} />
             <View style={styles.CardInfo}>
-              <Text style={styles.title}>{customer.fatherName}</Text>
-              <Text style={styles.role}>{customer.role}</Text>
+              <Text style={styles.title}>{customer.name}</Text>
             </View>
           </View>
           <View style={styles.hr} />
-          <View style={[styles.row, { alignItems: 'flex-start' }]}>
-            <View style={styles.leftColumn}>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>About me</Text>
-                <Text style={[styles.about, styles.cardContent]}>Hello, {customer.about}</Text>
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Customer Info</Text>
+            <View style={styles.cardContent}>
+              <View style={styles.userDetails}>
+                <Text style={styles.mainTitle}>Email</Text>
+                <Text style={styles.iconTitle}>{customer.email}</Text>
               </View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Education</Text>
-                <View style={styles.cardContent}>
-                  <View style={styles.IconContainer}>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Master Degree (Year)</Text>
-                      <Text style={styles.iconTitle}>2014-2017</Text>
-                    </View>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Institute</Text>
-                      <Text style={styles.iconTitle}>-</Text>
-                    </View>
-                  </View>
-                  <View style={styles.hr} />
-                  <View style={styles.IconContainer}>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Bachelor (Year)</Text>
-                      <Text style={styles.iconTitle}>2011-2013</Text>
-                    </View>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Institute</Text>
-                      <Text style={styles.iconTitle}>Imperial College London</Text>
-                    </View>
-                  </View>
-                  <View style={styles.hr} />
-                  <View style={styles.IconContainer}>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>School (Year)</Text>
-                      <Text style={styles.iconTitle}>2009-2011</Text>
-                    </View>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Institute</Text>
-                      <Text style={styles.iconTitle}>School of London, England</Text>
-                    </View>
-                  </View>
-                </View>
+              <View style={styles.userDetails}>
+                <Text style={styles.mainTitle}>Contact</Text>
+                <Text style={styles.iconTitle}>{customer.contact}</Text>
               </View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Employment</Text>
-                <View style={styles.cardContent}>
-                  <View style={styles.IconContainer}>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Senior UI/UX designer (Year)</Text>
-                      <Text style={styles.iconTitle}>2019-Current</Text>
-                    </View>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Job Responsibility</Text>
-                      <Text style={styles.iconTitle}>
-                        Perform task related to project manager with the 100+ team under my observation. Team management is key role in this
-                        company.
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={styles.hr} />
-                  <View style={styles.IconContainer}>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Trainee cum Project Manager (Year)</Text>
-                      <Text style={styles.iconTitle}>2017-2019</Text>
-                    </View>
-                    <View style={[styles.row, styles.IconRow]}>
-                      <Text style={styles.mainTitle}>Job Responsibility</Text>
-                      <Text style={styles.iconTitle}>Team management is key role in this company.</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Skill</Text>
-                <View style={styles.cardContent}>
-                  <View style={[styles.row, { gap: 1, flexWrap: 'wrap' }]}>
-                    {customer.skills.map((skill: string, index: number) => (
-                      <View style={styles.chip} key={index}>
-                        <Text style={styles.chipTitle}>{skill}</Text>
-                      </View>
-                    ))}
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={styles.rightColumn}>
-              <View style={[styles.card, styles.infoCard]}>
-                <View style={styles.userDetails}>
-                  <Text style={styles.mainTitle}>Father Name</Text>
-                  <Text style={styles.iconTitle}>
-                    Mr. {customer.firstName} {customer.lastName}
-                  </Text>
-                </View>
-                <View style={styles.userDetails}>
-                  <Text style={styles.mainTitle}>Email</Text>
-                  <Text style={styles.iconTitle}>{customer.email}</Text>
-                </View>
-                <View style={styles.userDetails}>
-                  <Text style={styles.mainTitle}>Contact</Text>
-                  <Text style={styles.iconTitle}>{customer.contact}</Text>
-                </View>
-                <View style={styles.userDetails}>
-                  <Text style={styles.mainTitle}>Location</Text>
-                  <Text style={styles.iconTitle}>{customer.country}</Text>
-                </View>
-                <View style={styles.userDetails}>
-                  <Text style={styles.mainTitle}>Website</Text>
-                  <Text style={styles.iconTitle}>
-                    <Link
-                      style={[styles.iconTitle, { color: theme.palette.primary.main }]}
-                      src={`https://${customer.firstName}.en`}
-                    >{`https://${customer.firstName}.en`}</Link>
-                  </Text>
-                </View>
+              <View style={styles.userDetails}>
+                <Text style={styles.mainTitle}>Age</Text>
+                <Text style={styles.iconTitle}>{String(customer.age)}</Text>
               </View>
             </View>
           </View>

@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
       <RoleGuard allowedRoles={['SUPER_ADMIN', 'MERCHANT_ADMIN']}>
-        <DashboardLayout>{children}</DashboardLayout>
+      <DashboardLayout>{children}</DashboardLayout>
       </RoleGuard>
     </AuthGuard>
   );

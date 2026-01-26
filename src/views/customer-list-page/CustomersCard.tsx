@@ -37,9 +37,7 @@ const allColumns = [
   { id: 2, header: 'Customer Name' },
   { id: 3, header: 'Email' },
   { id: 4, header: 'Contact' },
-  { id: 5, header: 'Age' },
-  { id: 6, header: 'Country' },
-  { id: 7, header: 'Status' }
+  { id: 5, header: 'Age' }
 ];
 
 function dataSort(data: CustomerList[], sortBy: string) {
@@ -53,10 +51,6 @@ function dataSort(data: CustomerList[], sortBy: string) {
         return (a.contact ?? '').localeCompare(b.contact ?? '');
       case 'Age':
         return (a.age ?? 0) - (b.age ?? 0);
-      case 'Country':
-        return (a.country ?? '').localeCompare(b.country ?? '');
-      case 'Status':
-        return (a.status ?? 0) - (b.status ?? 0);
       default:
         return 0;
     }

@@ -1,27 +1,15 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 
 // material-ui
-import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -43,61 +31,13 @@ import CircularWithPath from 'components/@extended/progress/CircularWithPath';
 
 import { insertCustomer, updateCustomer } from 'api/customer';
 import { openSnackbar } from 'api/snackbar';
-import { Gender } from 'config';
 
 // assets
-import { Camera, CloseCircle, Trash } from '@wandersonalwes/iconsax-react';
+import { Camera, Trash } from '@wandersonalwes/iconsax-react';
 
 // types
 import { SnackbarProps } from 'types/snackbar';
 import { CustomerList } from 'types/customer';
-
-interface StatusProps {
-  value: number;
-  label: string;
-}
-
-const skills = [
-  'Adobe XD',
-  'After Effect',
-  'Angular',
-  'Animation',
-  'ASP.Net',
-  'Bootstrap',
-  'C#',
-  'CC',
-  'Corel Draw',
-  'CSS',
-  'DIV',
-  'Dreamweaver',
-  'Figma',
-  'Graphics',
-  'HTML',
-  'Illustrator',
-  'J2Ee',
-  'Java',
-  'Javascript',
-  'JQuery',
-  'Logo Design',
-  'Material UI',
-  'Motion',
-  'MVC',
-  'MySQL',
-  'NodeJS',
-  'npm',
-  'Photoshop',
-  'PHP',
-  'React',
-  'Redux',
-  'Reduxjs & tooltit',
-  'SASS',
-  'SCSS',
-  'SQL Server',
-  'SVG',
-  'UI/UX',
-  'User Interface Designing',
-  'Wordpress'
-];
 
 // CONSTANT
 const getInitialValues = (customer: CustomerList | null) => {
@@ -108,20 +48,7 @@ const getInitialValues = (customer: CustomerList | null) => {
     email: '',
     age: 18,
     avatar: 1,
-    gender: Gender.FEMALE,
-    role: '',
-    fatherName: '',
-    orders: 0,
-    progress: 50,
-    status: 2,
-    orderStatus: '',
-    contact: '',
-    country: '',
-    location: '',
-    about: '',
-    skills: [],
-    time: ['just now'],
-    date: ''
+    contact: ''
   };
 
   if (customer) {
@@ -130,12 +57,6 @@ const getInitialValues = (customer: CustomerList | null) => {
 
   return newCustomer;
 };
-
-const allStatus: StatusProps[] = [
-  { value: 3, label: 'Rejected' },
-  { value: 1, label: 'Verified' },
-  { value: 2, label: 'Pending' }
-];
 
 // ==============================|| CUSTOMER ADD / EDIT - FORM ||============================== //
 
@@ -160,9 +81,8 @@ export default function FormCustomerAdd({ customer, closeModal }: { customer: Cu
     firstName: Yup.string().max(255).required('First Name is required'),
     lastName: Yup.string().max(255).required('Last Name is required'),
     email: Yup.string().max(255).required('Email is required').email('Must be a valid email'),
-    status: Yup.string().required('Status is required'),
-    location: Yup.string().max(500),
-    about: Yup.string().max(500)
+    age: Yup.number().min(0).max(120).required('Age is required'),
+    contact: Yup.string().max(255).required('Contact is required')
   });
 
   const [openAlert, setOpenAlert] = useState(false);
@@ -212,7 +132,7 @@ export default function FormCustomerAdd({ customer, closeModal }: { customer: Cu
     }
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   if (loading)
     return (
@@ -333,78 +253,6 @@ export default function FormCustomerAdd({ customer, closeModal }: { customer: Cu
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-fatherName">Father Name</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-fatherName"
-                          placeholder="Enter Father Name"
-                          {...getFieldProps('fatherName')}
-                          error={Boolean(touched.fatherName && errors.fatherName)}
-                          helperText={touched.fatherName && errors.fatherName}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-role">Customer Role</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-role"
-                          placeholder="Enter Role"
-                          {...getFieldProps('role')}
-                          error={Boolean(touched.role && errors.role)}
-                          helperText={touched.role && errors.role}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-gender">Gender</InputLabel>
-                        <RadioGroup row aria-label="payment-card" {...getFieldProps('gender')}>
-                          <FormControlLabel control={<Radio value={Gender.FEMALE} />} label={Gender.FEMALE} />
-                          <FormControlLabel control={<Radio value={Gender.MALE} />} label={Gender.MALE} />
-                        </RadioGroup>
-                      </Stack>
-                    </Grid>
-                    <Grid size={12}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-status">Status</InputLabel>
-                        <FormControl fullWidth>
-                          <Select
-                            id="column-hiding"
-                            displayEmpty
-                            {...getFieldProps('status')}
-                            onChange={(event: SelectChangeEvent<string>) => setFieldValue('status', event.target.value as string)}
-                            input={<OutlinedInput id="select-column-hiding" placeholder="Sort by" />}
-                            renderValue={(selected) => {
-                              if (!selected) {
-                                return <Typography variant="subtitle1">Select Status</Typography>;
-                              }
-
-                              const selectedStatus = allStatus.filter((item) => item.value === Number(selected));
-                              return (
-                                <Typography variant="subtitle2">
-                                  {selectedStatus.length > 0 ? selectedStatus[0].label : 'Pending'}
-                                </Typography>
-                              );
-                            }}
-                          >
-                            {allStatus.map((column: StatusProps) => (
-                              <MenuItem key={column.value} value={column.value}>
-                                <ListItemText primary={column.label} />
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        {touched.status && errors.status && (
-                          <FormHelperText error id="standard-weight-helper-text-email-login" sx={{ pl: 1.75 }}>
-                            {errors.status}
-                          </FormHelperText>
-                        )}
-                      </Stack>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <Stack sx={{ gap: 1 }}>
                         <InputLabel htmlFor="customer-contact">Contact</InputLabel>
                         <TextField
                           fullWidth
@@ -414,99 +262,6 @@ export default function FormCustomerAdd({ customer, closeModal }: { customer: Cu
                           error={Boolean(touched.contact && errors.contact)}
                           helperText={touched.contact && errors.contact}
                         />
-                      </Stack>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-country">Country</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-country"
-                          placeholder="Enter Country"
-                          {...getFieldProps('country')}
-                          error={Boolean(touched.country && errors.country)}
-                          helperText={touched.country && errors.country}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid size={12}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-location">Location</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-location"
-                          multiline
-                          rows={2}
-                          placeholder="Enter Location"
-                          {...getFieldProps('location')}
-                          error={Boolean(touched.location && errors.location)}
-                          helperText={touched.location && errors.location}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid size={12}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-about">About Customer</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="customer-about"
-                          multiline
-                          rows={2}
-                          placeholder="Enter Customer Information"
-                          {...getFieldProps('about')}
-                          error={Boolean(touched.about && errors.about)}
-                          helperText={touched.about && errors.about}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid size={12}>
-                      <Stack sx={{ gap: 1 }}>
-                        <InputLabel htmlFor="customer-skills">Skills</InputLabel>
-                        <Autocomplete
-                          multiple
-                          fullWidth
-                          id="customer-skills"
-                          options={skills}
-                          {...getFieldProps('skills')}
-                          getOptionLabel={(label) => label}
-                          onChange={(event, newValue) => {
-                            setFieldValue('skills', newValue);
-                          }}
-                          renderInput={(params) => <TextField {...params} name="skill" placeholder="Add Skills" />}
-                          renderValue={(values, getItemProps) =>
-                            values.map((option: string, index: number) => (
-                              <Chip
-                                {...getItemProps({ index })}
-                                variant="combined"
-                                key={index}
-                                label={option}
-                                deleteIcon={<CloseCircle style={{ fontSize: '0.75rem' }} />}
-                                sx={{ color: 'text.primary' }}
-                              />
-                            ))
-                          }
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid size={12}>
-                      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <Stack sx={{ gap: 0.5 }}>
-                          <Typography variant="subtitle1">Make Contact Info Public</Typography>
-                          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                            Means that anyone viewing your profile will be able to see your contacts details
-                          </Typography>
-                        </Stack>
-                        <FormControlLabel control={<Switch defaultChecked sx={{ mt: 0 }} />} label="" labelPlacement="start" />
-                      </Stack>
-                      <Divider sx={{ my: 2 }} />
-                      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <Stack sx={{ gap: 0.5 }}>
-                          <Typography variant="subtitle1">Available to hire</Typography>
-                          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                            Toggling this will let your teammates know that you are available for acquiring new projects
-                          </Typography>
-                        </Stack>
-                        <FormControlLabel control={<Switch sx={{ mt: 0 }} />} label="" labelPlacement="start" />
                       </Stack>
                     </Grid>
                   </Grid>

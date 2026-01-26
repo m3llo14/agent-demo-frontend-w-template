@@ -19,7 +19,7 @@ import { mapAuthUser } from 'utils/auth-mapper';
 import useLocales from 'utils/locales/useLocales';
 
 // assets
-import { ArrowDown, ArrowUp, Book, Calendar, CloudChange, Wallet3 } from '@wandersonalwes/iconsax-react';
+import { Book, Calendar, CloudChange, Wallet3 } from '@wandersonalwes/iconsax-react';
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
@@ -49,7 +49,6 @@ export default function DashboardDefault() {
           iconPrimary={<Wallet3 />}
           percentage={
             <Typography color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <ArrowUp size={16} style={{ transform: 'rotate(45deg)' }} /> 30.6%
             </Typography>
           }
         >
@@ -65,7 +64,6 @@ export default function DashboardDefault() {
           iconPrimary={<Book />}
           percentage={
             <Typography sx={{ color: 'warning.dark', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <ArrowDown size={16} style={{ transform: 'rotate(-45deg)' }} /> 30.6%
             </Typography>
           }
         >
@@ -81,7 +79,6 @@ export default function DashboardDefault() {
           iconPrimary={<Calendar />}
           percentage={
             <Typography sx={{ color: 'success.darker', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <ArrowUp size={16} style={{ transform: 'rotate(45deg)' }} /> 30.6%
             </Typography>
           }
         >
@@ -97,7 +94,6 @@ export default function DashboardDefault() {
           iconPrimary={<CloudChange />}
           percentage={
             <Typography sx={{ color: 'error.dark', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <ArrowDown size={16} style={{ transform: 'rotate(-45deg)' }} /> 30.6%
             </Typography>
           }
         >

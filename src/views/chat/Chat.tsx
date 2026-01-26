@@ -1,24 +1,19 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 // material-ui
 import { styled, Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Collapse from '@mui/material/Collapse';
 import Dialog from '@mui/material/Dialog';
 import Grid from '@mui/material/Grid';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-// third-party
-import EmojiPicker, { SkinTones, EmojiClickData } from 'emoji-picker-react';
 
 // project-imports
 import CircularWithPath from 'components/@extended/progress/CircularWithPath';
@@ -33,28 +28,17 @@ import ChatHeader from 'sections/apps/chat/ChatHeader';
 import ChatHistory from 'sections/apps/chat/ChatHistory';
 import UserDetails from 'sections/apps/chat/UserDetails';
 
-import { insertChat, useGetUsers } from 'api/chat';
-import { openSnackbar } from 'api/snackbar';
-import incrementer from 'utils/incrementer';
-
+import { useGetUsers } from 'api/chat';
 // assets
 import {
   Add,
-  Call,
-  Camera,
   DocumentDownload,
-  EmojiHappy,
-  Image as ImageIcon,
   InfoCircle,
-  Paperclip,
-  Send,
   Trash,
-  VolumeHigh,
   VolumeMute
 } from '@wandersonalwes/iconsax-react';
 
 // types
-import { SnackbarProps } from 'types/snackbar';
 import { UserProfile } from 'types/user-profile';
 
 const drawerWidth = 320;
@@ -125,60 +109,6 @@ export default function Chat() {
     setOpenChatDrawer((prevState) => !prevState);
   };
 
-  const [anchorElEmoji, setAnchorElEmoji] = useState<any>(); /** No single type can cater for all elements */
-
-  const handleOnEmojiButtonClick = (event: React.MouseEvent<HTMLButtonElement> | undefined) => {
-    setAnchorElEmoji(anchorElEmoji ? null : event?.currentTarget);
-  };
-
-  // handle new message form
-  const [message, setMessage] = useState('');
-  const textInput = useRef(null);
-
-  const handleOnSend = () => {
-    if (message.trim() === '') {
-      openSnackbar({
-        open: true,
-        message: 'Message required',
-        variant: 'alert',
-        alert: {
-          color: 'error'
-        }
-      } as SnackbarProps);
-    } else {
-      const d = new Date();
-      const newMessage = {
-        id: Number(incrementer(users.length)),
-        from: 'User1',
-        to: user.name,
-        text: message,
-        time: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      insertChat(user.name!, newMessage);
-    }
-    setMessage('');
-  };
-
-  const handleEnter = (event: React.KeyboardEvent<HTMLDivElement> | undefined) => {
-    if (event?.key !== 'Enter') {
-      return;
-    }
-    handleOnSend();
-  };
-
-  // handle emoji
-  const onEmojiClick = (emojiObject: EmojiClickData) => {
-    setMessage(message + emojiObject.emoji);
-  };
-
-  const emojiOpen = Boolean(anchorElEmoji);
-  const emojiId = emojiOpen ? 'simple-popper' : undefined;
-
-  const handleCloseEmoji = () => {
-    setAnchorElEmoji(null);
-  };
-
-  // close sidebar when widow size below 'md' breakpoint
   useEffect(() => {
     setOpenChatDrawer(!downLG);
   }, [downLG]);
@@ -234,13 +164,6 @@ export default function Chat() {
                     </Grid>
                     <Grid>
                       <Stack direction="row" sx={{ gap: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-{/*                         <IconButton size="large" color="secondary">
-                          <Call />
-                        </IconButton> */}
-{/*                         <IconButton size="large" color="secondary">
-                          <Camera />
-                        </IconButton> */}
-
                         <IconButton
                           onClick={handleUserChange}
                           size="large"
@@ -310,76 +233,6 @@ export default function Chat() {
                     </Box>
                   </SimpleBar>
                 </Grid>
-{/*                 <Grid
-                  size={12}
-                  sx={{ height: 1, pt: 2, pl: 2, bgcolor: 'background.paper', borderTop: '1px solid ', borderTopColor: 'divider' }}
-                >
-                  <Stack>
-                    <TextField
-                      inputRef={textInput}
-                      fullWidth
-                      multiline
-                      rows={4}
-                      placeholder="Your Message..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value.length <= 1 ? e.target.value.trim() : e.target.value)}
-                      onKeyDown={handleEnter}
-                      variant="standard"
-                      slotProps={{ input: { sx: { '&:before': { borderBottomColor: 'divider' } } } }}
-                    />
-                    <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Stack direction="row" sx={{ py: 2, ml: -1 }}>
-                        <>
-                          <IconButton
-                            ref={anchorElEmoji}
-                            aria-describedby={emojiId}
-                            onClick={handleOnEmojiButtonClick}
-                            sx={{ opacity: 0.5 }}
-                            size="medium"
-                            color="secondary"
-                          >
-                            <EmojiHappy />
-                          </IconButton>
-                          <Popper
-                            id={emojiId}
-                            open={emojiOpen}
-                            anchorEl={anchorElEmoji}
-                            disablePortal
-                            style={{ zIndex: 1200 }}
-                            popperOptions={{
-                              modifiers: [
-                                {
-                                  name: 'offset',
-                                  options: {
-                                    offset: [-20, 125]
-                                  }
-                                }
-                              ]
-                            }}
-                          >
-                            <ClickAwayListener onClickAway={handleCloseEmoji}>
-                              <MainCard elevation={8} content={false}>
-                                <EmojiPicker onEmojiClick={onEmojiClick} defaultSkinTone={SkinTones.DARK} autoFocusSearch={false} />
-                              </MainCard>
-                            </ClickAwayListener>
-                          </Popper>
-                        </>
-                        <IconButton sx={{ opacity: 0.5 }} size="medium" color="secondary">
-                          <Paperclip />
-                        </IconButton>
-                        <IconButton sx={{ opacity: 0.5 }} size="medium" color="secondary">
-                          <ImageIcon />
-                        </IconButton>
-                        <IconButton sx={{ opacity: 0.5 }} size="medium" color="secondary">
-                          <VolumeHigh />
-                        </IconButton>
-                      </Stack>
-                      <IconButton color="primary" onClick={handleOnSend} size="large" sx={{ mr: 1.5 }}>
-                        <Send />
-                      </IconButton>
-                    </Stack>
-                  </Stack>
-                </Grid> */}
               </Grid>
             </MainCard>
           </Grid>

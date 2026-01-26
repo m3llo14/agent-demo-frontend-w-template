@@ -8,9 +8,9 @@ import './globals.css';
 import ProviderWrapper from './ProviderWrapper';
 
 export const metadata: Metadata = {
-  title: 'Able Pro Material UI Next JS Dashboard Template',
+  title: 'Artific Agent',
   description:
-    'Able Pro React Admin Template, built with Material UI, React, and React Router, offers a modern UI, seamless performance, and powerful customization for any web application.'
+    'Artific Agent'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

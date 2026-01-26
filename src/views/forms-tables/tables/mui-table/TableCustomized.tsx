@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
+
 // next
 import { useSession } from 'next-auth/react';
 
 // material-ui
 import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -14,6 +17,11 @@ import TableRow from '@mui/material/TableRow';
 
 // project-imports
 import MainCard from 'components/MainCard';
+import ServiceModal from 'sections/services/ServiceModal';
+import { getServiceUiConfig, resolveTenantType } from 'sections/services/tenantConfig';
+
+// assets
+import { Add } from '@wandersonalwes/iconsax-react';
 
 // styles
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -148,92 +156,102 @@ const formatPricingTiers = (tiers: PricingTier[]) => {
 
 export default function CustomizedTables() {
   const { data: session } = useSession();
+  const [serviceModalOpen, setServiceModalOpen] = useState(false);
 
   let tenantOverride: string | null = null;
   if (typeof window !== 'undefined') {
     tenantOverride = new URLSearchParams(window.location.search).get('tenantType');
   }
 
-  const tenantType =
-    tenantOverride === 'hotel' || tenantOverride === 'tourism'
-      ? tenantOverride
-      : session?.user?.tenantType || 'hotel';
+  const tenantType = resolveTenantType(session?.user?.tenantType, tenantOverride);
+  const uiConfig = getServiceUiConfig(tenantType);
 
   const isTourism = tenantType === 'tourism';
 
   return (
-    <MainCard content={false} title={isTourism ? 'Trips' : 'Rooms'}>
-      <TableContainer>
-        <Table sx={{ minWidth: 320 }} aria-label="customized table">
-          {isTourism ? (
-            <>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell sx={{ pl: 3 }}>Name</StyledTableCell>
-                  <StyledTableCell>Pricing</StyledTableCell>
-                  <StyledTableCell align="right">Duration</StyledTableCell>
-                  <StyledTableCell align="right">Capacity</StyledTableCell>
-                  <StyledTableCell align="right">Target Specialist</StyledTableCell>
-                  <StyledTableCell align="right">Start Date</StyledTableCell>
-                  <StyledTableCell sx={{ pr: 3 }} align="right">
-                    End Date
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {tourismRows.map((row) => (
-                  <StyledTableRow hover key={row.id}>
-                    <StyledTableCell sx={{ pl: 3 }} component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell>{formatPricingTiers(row.pricingTiers)}</StyledTableCell>
-                    <StyledTableCell align="right">{row.duration}</StyledTableCell>
-                    <StyledTableCell align="right">{row.capacity}</StyledTableCell>
-                    <StyledTableCell align="right">{row.targetSpecialistId}</StyledTableCell>
-                    <StyledTableCell align="right">{row.startDate}</StyledTableCell>
+    <>
+      <MainCard
+        content={false}
+        title={uiConfig.listTitle}
+        secondary={
+          <Button variant="contained" startIcon={<Add />} onClick={() => setServiceModalOpen(true)}>
+            {uiConfig.addButtonLabel}
+          </Button>
+        }
+      >
+        <TableContainer>
+          <Table sx={{ minWidth: 320 }} aria-label="customized table">
+            {isTourism ? (
+              <>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell sx={{ pl: 3 }}>Name</StyledTableCell>
+                    <StyledTableCell>Pricing</StyledTableCell>
+                    <StyledTableCell align="right">Duration</StyledTableCell>
+                    <StyledTableCell align="right">Capacity</StyledTableCell>
+                    <StyledTableCell align="right">Target Specialist</StyledTableCell>
+                    <StyledTableCell align="right">Start Date</StyledTableCell>
                     <StyledTableCell sx={{ pr: 3 }} align="right">
-                      {row.endDate}
+                      End Date
                     </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </>
-          ) : (
-            <>
-          <TableHead>
-            <TableRow>
-                  <StyledTableCell sx={{ pl: 3 }}>Name</StyledTableCell>
-                  <StyledTableCell align="right">Price</StyledTableCell>
-              <StyledTableCell align="right">Capacity</StyledTableCell>
-                  <StyledTableCell align="right">Description</StyledTableCell>
-                  <StyledTableCell align="right">Stock</StyledTableCell>
-                  <StyledTableCell align="right">Max Adults</StyledTableCell>
-              <StyledTableCell sx={{ pr: 3 }} align="right">
-                    Max Children
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-                {hotelRows.map((row) => (
-                  <StyledTableRow hover key={row.id}>
-                <StyledTableCell sx={{ pl: 3 }} component="th" scope="row">
-                      {row.name}
-                </StyledTableCell>
-                    <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.capacity}</StyledTableCell>
-                    <StyledTableCell align="right">{row.description}</StyledTableCell>
-                    <StyledTableCell align="right">{row.stock}</StyledTableCell>
-                    <StyledTableCell align="right">{row.maxAdults}</StyledTableCell>
-                <StyledTableCell sx={{ pr: 3 }} align="right">
-                      {row.maxChildren}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-            </>
-          )}
-        </Table>
-      </TableContainer>
-    </MainCard>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tourismRows.map((row) => (
+                    <StyledTableRow hover key={row.id}>
+                      <StyledTableCell sx={{ pl: 3 }} component="th" scope="row">
+                        {row.name}
+                      </StyledTableCell>
+                      <StyledTableCell>{formatPricingTiers(row.pricingTiers)}</StyledTableCell>
+                      <StyledTableCell align="right">{row.duration}</StyledTableCell>
+                      <StyledTableCell align="right">{row.capacity}</StyledTableCell>
+                      <StyledTableCell align="right">{row.targetSpecialistId}</StyledTableCell>
+                      <StyledTableCell align="right">{row.startDate}</StyledTableCell>
+                      <StyledTableCell sx={{ pr: 3 }} align="right">
+                        {row.endDate}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </>
+            ) : (
+              <>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell sx={{ pl: 3 }}>Name</StyledTableCell>
+                    <StyledTableCell align="right">Price</StyledTableCell>
+                    <StyledTableCell align="right">Capacity</StyledTableCell>
+                    <StyledTableCell align="right">Description</StyledTableCell>
+                    <StyledTableCell align="right">Stock</StyledTableCell>
+                    <StyledTableCell align="right">Max Adults</StyledTableCell>
+                    <StyledTableCell sx={{ pr: 3 }} align="right">
+                      Max Children
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {hotelRows.map((row) => (
+                    <StyledTableRow hover key={row.id}>
+                      <StyledTableCell sx={{ pl: 3 }} component="th" scope="row">
+                        {row.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">{row.price}</StyledTableCell>
+                      <StyledTableCell align="right">{row.capacity}</StyledTableCell>
+                      <StyledTableCell align="right">{row.description}</StyledTableCell>
+                      <StyledTableCell align="right">{row.stock}</StyledTableCell>
+                      <StyledTableCell align="right">{row.maxAdults}</StyledTableCell>
+                      <StyledTableCell sx={{ pr: 3 }} align="right">
+                        {row.maxChildren}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </>
+            )}
+          </Table>
+        </TableContainer>
+      </MainCard>
+      <ServiceModal open={serviceModalOpen} onClose={() => setServiceModalOpen(false)} tenantType={tenantType} />
+    </>
   );
 }

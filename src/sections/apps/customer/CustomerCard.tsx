@@ -2,39 +2,31 @@ import { useState } from 'react';
 
 // material-ui
 import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Fade from '@mui/material/Fade';
 import Grid from '@mui/material/Grid';
 import Menu from '@mui/material/Menu';
-import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 // third-party
 import { PatternFormat } from 'react-number-format';
-import { PDFDownloadLink } from '@react-pdf/renderer';
 
 // project-imports
 import AlertCustomerDelete from './AlertCustomerDelete';
 import CustomerModal from './CustomerModal';
 import CustomerPreview from './CustomerPreview';
-import ListSmallCard from './export-pdf/ListSmallCard';
-import Avatar from 'components/@extended/Avatar';
 import IconButton from 'components/@extended/IconButton';
 import MoreIcon from 'components/@extended/MoreIcon';
 import MainCard from 'components/MainCard';
 
 // assets
-import { CallCalling, Link2, Location, Sms, ProfileCircle } from '@wandersonalwes/iconsax-react';
-const avatarImage = '/assets/images/users';
+import { CallCalling, Sms, ProfileCircle } from '@wandersonalwes/iconsax-react';
 
 // types
 import { CustomerList } from 'types/customer';
@@ -203,9 +195,6 @@ export default function CustomerCard({ customer }: { customer: CustomerList }) {
           className="hideforPDf"
           sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between', mt: 'auto', mb: 0, pt: 2.25 }}
         >
-          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            Updated in {customer.time}
-          </Typography>
           <Button variant="outlined" size="small" onClick={handleClickOpen}>
             Preview
           </Button>

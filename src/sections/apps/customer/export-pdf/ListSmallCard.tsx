@@ -1,16 +1,11 @@
-// material-ui
-import { useTheme } from '@mui/material/styles';
-
 // third-party
-import { Page, View, Document, StyleSheet, Image as ImageIcon, Text, Link } from '@react-pdf/renderer';
+import { Page, View, Document, StyleSheet, Image as ImageIcon, Text } from '@react-pdf/renderer';
 
 // types
 import { CustomerList } from 'types/customer';
 
 // assets
-const LinkIcon = '/assets/images/icons/link.png';
 const Mail = '/assets/images/icons/mail.png';
-const Maps = '/assets/images/icons/map.png';
 const Phone = '/assets/images/icons/phone.png';
 
 const textPrimary = '#262626';
@@ -115,22 +110,19 @@ interface Props {
 // ==============================|| CUSTOMER - CARD ||============================== //
 
 export default function ListSmallCard({ customer }: Props) {
-  const theme = useTheme();
-
   return (
-    <Document title={`${customer?.fatherName}`}>
+    <Document title={`${customer?.name}`}>
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
           <View style={styles.row}>
             <ImageIcon style={styles.image} src={`${avatarImage}/avatar-${!customer.avatar ? 1 : customer.avatar}.png`} />
             <View style={styles.CardInfo}>
-              <Text style={styles.title}>{customer.fatherName}</Text>
-              <Text style={styles.role}>{customer.role}</Text>
+              <Text style={styles.title}>{customer.name}</Text>
             </View>
           </View>
           <View style={styles.hr} />
           <View>
-            <Text style={styles.about}>Hello, {customer.about}</Text>
+            <Text style={styles.about}>Customer Info</Text>
           </View>
           <View style={styles.IconContainer}>
             <View style={[styles.row, styles.IconRow]}>
@@ -138,8 +130,7 @@ export default function ListSmallCard({ customer }: Props) {
               <Text style={styles.iconTitle}>{customer.email}</Text>
             </View>
             <View style={[styles.row, styles.IconRow]}>
-              <ImageIcon src={Maps} style={styles.icon} />
-              <Text style={styles.iconTitle}>{customer.country}</Text>
+              <Text style={styles.iconTitle}>Age: {String(customer.age)}</Text>
             </View>
           </View>
           <View style={styles.IconContainer}>
@@ -147,23 +138,6 @@ export default function ListSmallCard({ customer }: Props) {
               <ImageIcon src={Phone} style={styles.icon} />
               <Text style={styles.iconTitle}>{customer.contact}</Text>
             </View>
-            <View style={[styles.row, styles.IconRow]}>
-              <ImageIcon src={LinkIcon} style={styles.icon} />
-              <Link
-                style={[styles.iconTitle, { color: theme.palette.primary.main }]}
-                src={`https://${customer.firstName}.en`}
-              >{`https://${customer.firstName}.en`}</Link>
-            </View>
-          </View>
-          <View style={[styles.row, { gap: 1, paddingTop: 18 }]}>
-            {customer.skills.map((skill: string, index: number) => (
-              <View style={styles.chip} key={index}>
-                <Text style={styles.chipTitle}>{skill}</Text>
-              </View>
-            ))}
-          </View>
-          <View style={styles.timer}>
-            <Text style={styles.iconTitle}> Updated in {customer.time}</Text>
           </View>
         </View>
       </Page>
