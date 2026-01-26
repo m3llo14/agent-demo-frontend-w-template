@@ -14,7 +14,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-
 // project-imports
 import CircularWithPath from 'components/@extended/progress/CircularWithPath';
 import IconButton from 'components/@extended/IconButton';
@@ -30,13 +29,7 @@ import UserDetails from 'sections/apps/chat/UserDetails';
 
 import { useGetUsers } from 'api/chat';
 // assets
-import {
-  Add,
-  DocumentDownload,
-  InfoCircle,
-  Trash,
-  VolumeMute
-} from '@wandersonalwes/iconsax-react';
+import { Add, DocumentDownload, InfoCircle, Trash, VolumeMute } from '@wandersonalwes/iconsax-react';
 
 // types
 import { UserProfile } from 'types/user-profile';
@@ -89,7 +82,6 @@ export default function Chat() {
     if (newUser) {
       setUser(newUser);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersLoading, users]);
 
   const handleClickSort = (event: React.MouseEvent<HTMLButtonElement> | undefined) => {

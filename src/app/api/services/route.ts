@@ -31,8 +31,7 @@ export async function POST(request: NextRequest) {
     collection.push(createdService);
 
     return NextResponse.json({ service: createdService }, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
 }
-

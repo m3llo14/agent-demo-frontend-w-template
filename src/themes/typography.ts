@@ -1,5 +1,5 @@
 // material-ui
-import { Theme, TypographyVariantsOptions } from '@mui/material/styles';
+import { TypographyVariantsOptions } from '@mui/material/styles';
 
 // project-imports
 import { ThemeMode } from 'config';
@@ -9,7 +9,7 @@ import { FontFamily } from 'types/config';
 
 // ==============================|| DEFAULT THEME - TYPOGRAPHY  ||============================== //
 
-export default function Typography(mode: ThemeMode, fontFamily: FontFamily, theme: Theme): TypographyVariantsOptions {
+export default function Typography(mode: ThemeMode, fontFamily: FontFamily): TypographyVariantsOptions {
   return {
     htmlFontSize: 16,
     fontFamily,

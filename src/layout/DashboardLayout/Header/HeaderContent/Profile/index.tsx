@@ -1,11 +1,10 @@
-import { useRef, useState, ReactNode, SyntheticEvent } from 'react';
+import { useRef, useState } from 'react';
 
 // next
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import ButtonBase from '@mui/material/ButtonBase';
 import CardContent from '@mui/material/CardContent';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -13,15 +12,11 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 // project-imports
-import ProfileTab from './ProfileTab';
-import SettingTab from './SettingTab';
 import Avatar from 'components/@extended/Avatar';
 import IconButton from 'components/@extended/IconButton';
 import Transitions from 'components/@extended/Transitions';
@@ -31,51 +26,11 @@ import useUser from 'hooks/useUser';
 
 // assets
 const avatar1 = '/assets/images/users/avatar-6.png';
-import { Setting2, Profile, Logout } from '@wandersonalwes/iconsax-react';
-
-interface TabPanelProps {
-  children?: ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
-
-// tab panel wrapper
-function TabPanel({ children, value, index, ...other }: TabPanelProps) {
-  return (
-    <Box
-      role="tabpanel"
-      hidden={value !== index}
-      id={`profile-tabpanel-${index}`}
-      aria-labelledby={`profile-tab-${index}`}
-      {...other}
-      sx={{ p: 1 }}
-    >
-      {value === index && children}
-    </Box>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `profile-tab-${index}`,
-    'aria-controls': `profile-tabpanel-${index}`
-  };
-}
-
-const tabStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  textTransform: 'capitalize',
-  gap: 1.25
-};
+import { Logout } from '@wandersonalwes/iconsax-react';
 
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 export default function ProfilePage() {
-  const theme = useTheme();
   const router = useRouter();
   const user = useUser();
 
@@ -108,12 +63,6 @@ export default function ProfilePage() {
       return;
     }
     setOpen(false);
-  };
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
   };
 
   return (
@@ -181,19 +130,6 @@ export default function ProfilePage() {
                       </Grid>
                     </Grid>
                   </CardContent>
-
-{/*                   <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="profile tabs">
-                      <Tab sx={tabStyle} icon={<Profile size={18} style={{ marginBottom: 0 }} />} label="Profile" {...a11yProps(0)} />
-                      <Tab sx={tabStyle} icon={<Setting2 size={18} style={{ marginBottom: 0 }} />} label="Setting" {...a11yProps(1)} />
-                    </Tabs>
-                  </Box>
-                  <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ProfileTab handleLogout={handleLogout} />
-                  </TabPanel>
-                  <TabPanel value={value} index={1} dir={theme.direction}>
-                    <SettingTab />
-                  </TabPanel> */}
                 </MainCard>
               </ClickAwayListener>
             </Paper>

@@ -28,9 +28,7 @@ export default function DashboardDefault() {
   const { data: session } = useSession();
   const { t } = useLocales();
 
-  const auth = session?.user?.backendUser
-    ? mapAuthUser(session.user.backendUser)
-    : null;
+  const auth = session?.user?.backendUser ? mapAuthUser(session.user.backendUser) : null;
 
   // super admin bu dashboard'u görmesin
   if (!auth || auth.role === 'SUPER_ADMIN' || !auth.tenantType) {
@@ -47,10 +45,7 @@ export default function DashboardDefault() {
           title={t(`dashboard.cards.revenue.${tenantType}`)}
           count="$3000"
           iconPrimary={<Wallet3 />}
-          percentage={
-            <Typography color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            </Typography>
-          }
+          percentage={<Typography color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}></Typography>}
         >
           <EcommerceDataChart color={theme.palette.primary.main} />
         </EcommerceDataCard>
@@ -62,10 +57,7 @@ export default function DashboardDefault() {
           count="290+"
           color="warning"
           iconPrimary={<Book />}
-          percentage={
-            <Typography sx={{ color: 'warning.dark', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            </Typography>
-          }
+          percentage={<Typography sx={{ color: 'warning.dark', display: 'flex', alignItems: 'center', gap: 0.5 }}></Typography>}
         >
           <EcommerceDataChart color={theme.palette.warning.dark} />
         </EcommerceDataCard>
@@ -77,10 +69,7 @@ export default function DashboardDefault() {
           count="1,568"
           color="success"
           iconPrimary={<Calendar />}
-          percentage={
-            <Typography sx={{ color: 'success.darker', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            </Typography>
-          }
+          percentage={<Typography sx={{ color: 'success.darker', display: 'flex', alignItems: 'center', gap: 0.5 }}></Typography>}
         >
           <EcommerceDataChart color={theme.palette.success.darker} />
         </EcommerceDataCard>
@@ -92,10 +81,7 @@ export default function DashboardDefault() {
           count="20"
           color="error"
           iconPrimary={<CloudChange />}
-          percentage={
-            <Typography sx={{ color: 'error.dark', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            </Typography>
-          }
+          percentage={<Typography sx={{ color: 'error.dark', display: 'flex', alignItems: 'center', gap: 0.5 }}></Typography>}
         >
           <EcommerceDataChart color={theme.palette.error.dark} />
         </EcommerceDataCard>

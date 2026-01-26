@@ -38,7 +38,7 @@ const management: NavItemType = {
       url: '/services',
       icon: icons.customercard,
       target: false
-    },
+    }
     /*
     {
       id: 'maintenance',

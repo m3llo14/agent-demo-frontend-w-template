@@ -10,10 +10,7 @@ export default function AuthGuard({ children }: GuardProps) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const router = useRouter();
-  const isPublicPage =
-    pathname.startsWith('/login') ||
-    pathname.startsWith('/register') ||
-    pathname.startsWith('/forgot-password');
+  const isPublicPage = pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/forgot-password');
   const isAuthenticated = Boolean(session?.user);
 
   useEffect(() => {

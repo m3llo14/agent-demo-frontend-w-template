@@ -242,10 +242,7 @@ export default function AuthLogin({ providers, csrfToken }: any) {
           })}
         </Stack>
       )}
-      {!providers && (
-        <Box sx={{ mt: 3 }}>
-        </Box>
-      )}
+      {!providers && <Box sx={{ mt: 3 }}></Box>}
     </>
   );
 }

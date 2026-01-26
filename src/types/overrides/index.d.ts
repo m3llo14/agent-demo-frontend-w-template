@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import Color from '@mui/material/Color';
+import '@mui/material/Color';
 
 declare module '@mui/material' {
   interface Color {

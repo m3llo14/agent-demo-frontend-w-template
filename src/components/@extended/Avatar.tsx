@@ -15,11 +15,10 @@ import { AvatarTypeProps, ColorProps, ExtendedStyleProps, SizeProps } from 'type
 // ==============================|| AVATAR - COLOR STYLE ||============================== //
 
 interface AvatarStyleProps extends ExtendedStyleProps {
-  variant?: AvatarProps['variant'];
   type?: AvatarTypeProps;
 }
 
-function getColorStyle({ variant, theme, color, type }: AvatarStyleProps) {
+function getColorStyle({ theme, color, type }: AvatarStyleProps) {
   const colors = getColors(theme, color);
   const { lighter, light, main, contrastText } = colors;
 

@@ -2,7 +2,9 @@
 import { TenantType, UserRole } from 'types/auth';
 import { resolveTenantType } from 'config/sector-registry';
 
-export const mapAuthUser = (backendUser: any): {
+export const mapAuthUser = (
+  backendUser: any
+): {
   role: UserRole;
   tenantType?: TenantType;
   merchantId?: string;

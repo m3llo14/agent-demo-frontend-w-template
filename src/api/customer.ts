@@ -17,8 +17,8 @@ const initialState: CustomerProps = {
 // ==============================|| API - CUSTOMER (RESTful) ||============================== //
 
 const endpoints = {
-  key: 'api/customers',  // RESTful: çoğul isim
-  modal: '/modal'        // Modal state için ayrı endpoint
+  key: 'api/customers', // RESTful: çoğul isim
+  modal: '/modal' // Modal state için ayrı endpoint
 };
 
 // GET /api/customers - Tüm müşterileri listele
@@ -45,16 +45,11 @@ export function useGetCustomer() {
 
 // GET /api/customers/:id - Tek müşteri getir
 export function useGetCustomerById(id: number) {
-  
-  const { data, isLoading, error } = useSWR(
-    id ? `${endpoints.key}/${id}` : null,
-    fetcher,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false
-    }
-  );
+  const { data, isLoading, error } = useSWR(id ? `${endpoints.key}/${id}` : null, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
 
   return {
     customer: data?.customer as CustomerList,
@@ -65,16 +60,14 @@ export function useGetCustomerById(id: number) {
 
 // POST /api/customers - Yeni müşteri oluştur
 export async function insertCustomer(newCustomer: Omit<CustomerList, 'id'>) {
-
   const tempId = Date.now(); // Geçici ID
 
   // Optimistic update - local state'i güncelle
   mutate(
     endpoints.key,
     (currentData: any) => {
-
       const addedCustomer: CustomerList = { ...newCustomer, id: tempId } as CustomerList;
-      
+
       return {
         ...currentData,
         customers: [...(currentData?.customers || []), addedCustomer]
@@ -87,20 +80,18 @@ export async function insertCustomer(newCustomer: Omit<CustomerList, 'id'>) {
   try {
     const response = await axiosServices.post(endpoints.key, newCustomer);
     const createdCustomer = response.data.customer;
-    
+
     // Server'dan gelen gerçek ID ile güncelle
     mutate(
       endpoints.key,
       (currentData: any) => {
         const customers = currentData?.customers || [];
-        const updatedCustomers = customers.map((c: CustomerList) =>
-          c.id === tempId ? createdCustomer : c
-        );
+        const updatedCustomers = customers.map((c: CustomerList) => (c.id === tempId ? createdCustomer : c));
         return { ...currentData, customers: updatedCustomers };
       },
       false
     );
-    
+
     return createdCustomer;
   } catch (error) {
     // Hata durumunda rollback
@@ -128,20 +119,18 @@ export async function updateCustomer(customerId: number, updatedCustomer: Partia
   try {
     const response = await axiosServices.put(`${endpoints.key}/${customerId}`, updatedCustomer);
     const updated = response.data.customer;
-    
+
     // Server'dan gelen veri ile güncelle
     mutate(
       endpoints.key,
       (currentData: any) => {
         const customers = currentData?.customers || [];
-        const updatedCustomers = customers.map((customer: CustomerList) =>
-          customer.id === customerId ? updated : customer
-        );
+        const updatedCustomers = customers.map((customer: CustomerList) => (customer.id === customerId ? updated : customer));
         return { ...currentData, customers: updatedCustomers };
       },
       false
     );
-    
+
     return updated;
   } catch (error) {
     // Hata durumunda rollback

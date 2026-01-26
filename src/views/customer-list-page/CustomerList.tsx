@@ -11,9 +11,7 @@ import MainCard from 'components/MainCard';
 export default function CustomerListPage() {
   return (
     <MainCard title="Customer List">
-      <Typography variant="body1">
-        Müşteri listesi buraya gelecek
-      </Typography>
+      <Typography variant="body1">Müşteri listesi buraya gelecek</Typography>
     </MainCard>
   );
 }

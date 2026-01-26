@@ -39,8 +39,8 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
   const theme: Theme = useMemo<Theme>(() => Palette(themeMode, presetColor, themeContrast), [themeMode, presetColor, themeContrast]);
 
   const themeTypography: TypographyVariantsOptions = useMemo<TypographyVariantsOptions>(
-    () => Typography(themeMode, fontFamily, theme),
-    [themeMode, fontFamily, theme]
+    () => Typography(themeMode, fontFamily),
+    [themeMode, fontFamily]
   );
   const themeCustomShadows: CustomShadowProps = useMemo<CustomShadowProps>(() => CustomShadows(theme), [theme]);
 

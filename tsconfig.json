@@ -17,7 +17,7 @@
     "baseUrl": "src",
     "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitThis": true,

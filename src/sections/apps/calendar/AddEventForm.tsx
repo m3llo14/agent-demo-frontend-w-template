@@ -234,8 +234,7 @@ export default function AddEventFrom({ event, range, onCancel, modalCallback }: 
         }
 
         setSubmitting(false);
-        // eslint-disable-next-line
-      } catch (error) {}
+      } catch {}
     }
   });
 

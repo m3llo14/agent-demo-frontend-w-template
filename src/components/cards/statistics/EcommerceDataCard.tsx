@@ -103,4 +103,3 @@ export default function EcommerceDataCard({ title, count, percentage, color, ico
     </MainCard>
   );
 }
-

@@ -24,6 +24,7 @@ import MainCard from 'components/MainCard';
 import ServiceModal from 'sections/services/ServiceModal';
 import { getServiceUiConfig, resolveTenantType } from 'sections/services/tenantConfig';
 import useLocales from 'utils/locales/useLocales';
+import { SnackbarProps } from 'types/snackbar';
 
 // assets
 import { Add, Edit, Trash } from '@wandersonalwes/iconsax-react';
@@ -62,7 +63,8 @@ export default function CustomizedTables() {
     tenantOverride = new URLSearchParams(window.location.search).get('tenantType');
   }
 
-  const tenantType = resolveTenantType(session?.user?.tenantType, tenantOverride);
+  const sessionTenantType = (session?.user as { tenantType?: string } | undefined)?.tenantType;
+  const tenantType = resolveTenantType(sessionTenantType, tenantOverride);
   const uiConfig = getServiceUiConfig(tenantType);
   const { services, servicesLoading, servicesEmpty } = useGetServices(tenantType);
   const columns = uiConfig.table.columns;
@@ -95,8 +97,8 @@ export default function CustomizedTables() {
         alert: {
           color: 'success'
         }
-      });
-    } catch (error) {
+      } as SnackbarProps);
+    } catch {
       openSnackbar({
         open: true,
         message: t('servicesPage.messages.deleteError'),
@@ -104,7 +106,7 @@ export default function CustomizedTables() {
         alert: {
           color: 'error'
         }
-      });
+      } as SnackbarProps);
     }
   };
 

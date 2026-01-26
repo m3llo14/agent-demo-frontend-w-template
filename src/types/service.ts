@@ -38,4 +38,3 @@ export type ServiceCreateInput = Omit<HotelService, 'id'> | Omit<TourismService,
 export type ServiceListResponse = {
   services: ServiceRecord[];
 };
-

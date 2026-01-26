@@ -35,19 +35,23 @@ interface Props {
 export default function Locales({ children }: Props) {
   const { i18n } = useConfig();
 
-  const [messages, setMessages] = useState<Record<string, string> | Record<string, MessageFormatElement[]> | undefined>();
+  const [messages, setMessages] = useState<Record<string, unknown> | Record<string, MessageFormatElement[]> | undefined>();
   const localeDataPromise = useMemo(() => loadLocaleData(i18n), [i18n]);
 
   useEffect(() => {
-    localeDataPromise.then((d: { default: Record<string, string> | Record<string, MessageFormatElement[]> | undefined }) => {
-      setMessages(d.default);
+    localeDataPromise.then((d) => {
+      setMessages(d.default as Record<string, unknown> | Record<string, MessageFormatElement[]> | undefined);
     });
   }, [localeDataPromise]);
 
   return (
     <>
       {messages && (
-        <IntlProvider locale={i18n} defaultLocale="en" messages={messages}>
+        <IntlProvider
+          locale={i18n}
+          defaultLocale="en"
+          messages={messages as Record<string, string> | Record<string, MessageFormatElement[]>}
+        >
           {children}
         </IntlProvider>
       )}

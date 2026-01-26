@@ -105,4 +105,3 @@ export default function RepeatCustomerChart() {
 
   return <ReactApexChart options={options} series={series} type="area" height={284} />;
 }
-

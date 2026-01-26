@@ -72,12 +72,7 @@ const decodeJwtPayload = (token: string): Record<string, any> => {
 };
 
 const extractUserId = (payload: Record<string, any>, fallback?: string) =>
-  payload?.sub ||
-  payload?.userId ||
-  payload?.id ||
-  payload?._id ||
-  payload?.user?.id ||
-  fallback;
+  payload?.sub || payload?.userId || payload?.id || payload?._id || payload?.user?.id || fallback;
 
 // ==============================
 // AUTH OPTIONS
@@ -103,11 +98,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           const payload = response.data?.data ?? response.data;
-          const accessToken =
-            payload?.access_token ||
-            payload?.accessToken ||
-            payload?.token ||
-            payload?.jwt;
+          const accessToken = payload?.access_token || payload?.accessToken || payload?.token || payload?.jwt;
 
           if (!accessToken) {
             throw new Error('Login failed');

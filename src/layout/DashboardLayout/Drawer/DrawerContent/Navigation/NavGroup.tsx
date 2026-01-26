@@ -116,7 +116,6 @@ export default function NavGroup({
         setCurrentItem(item);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, lastItem, downLG]);
 
   const checkOpenForParent = (child: NavItemType[], id: string) => {
@@ -146,7 +145,6 @@ export default function NavGroup({
   useEffect(() => {
     checkSelectedOnload(currentItem);
     if (openMini) setAnchorEl(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, currentItem]);
 
   const handleClick = (event: MouseEvent<HTMLElement> | undefined) => {

@@ -37,7 +37,6 @@ export default function TablePagination({ getPageCount, setPageIndex, setPageSiz
       });
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setPageSize(initialPageSize || 10), []);
 
   const handleClose = () => {

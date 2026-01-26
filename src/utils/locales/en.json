@@ -132,22 +132,19 @@
   "dashboard.range.today": "Today",
   "dashboard.range.weekly": "Weekly",
   "dashboard.range.monthly": "Monthly",
-  
+
   "labels": {
-  "customer": {
-    "hotel": "Guest",
-    "tourism": "Customer",
-    "barber": "Customer",
-    "clinic": "Patient"
-  },
-  "appointment": {
-    "hotel": "Reservation",
-    "tourism": "Tour",
-    "barber": "Appointment",
-    "clinic": "Appointment"
+    "customer": {
+      "hotel": "Guest",
+      "tourism": "Customer",
+      "barber": "Customer",
+      "clinic": "Patient"
+    },
+    "appointment": {
+      "hotel": "Reservation",
+      "tourism": "Tour",
+      "barber": "Appointment",
+      "clinic": "Appointment"
+    }
   }
 }
-
-}
-
-

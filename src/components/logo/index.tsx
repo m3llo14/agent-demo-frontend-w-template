@@ -16,16 +16,15 @@ import { APP_DEFAULT_PATH } from 'config';
 // ==============================|| MAIN LOGO ||============================== //
 
 interface Props {
-  reverse?: boolean;
   isIcon?: boolean;
   sx?: SxProps;
   to?: To;
 }
 
-export default function LogoSection({ reverse, isIcon, sx, to }: Props) {
+export default function LogoSection({ isIcon, sx, to }: Props) {
   return (
     <ButtonBase disableRipple component={Link} href={!to ? APP_DEFAULT_PATH : to} sx={sx}>
-      {isIcon ? <LogoIcon /> : <Logo reverse={reverse} />}
+      {isIcon ? <LogoIcon /> : <Logo />}
     </ButtonBase>
   );
 }

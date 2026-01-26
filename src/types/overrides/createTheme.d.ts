@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import * as Theme from '@mui/material/styles';
+import '@mui/material/styles';
 
 // project-imports
 import { CustomShadowProps } from 'types/theme';

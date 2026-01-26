@@ -89,7 +89,7 @@ export default function AuthRegister({ providers, csrfToken }: any) {
             .required('Password is required')
             .test('no-leading-trailing-whitespace', 'Password can not start or end with spaces', (value) => value === value.trim())
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={async (values, { setErrors, setSubmitting }) => {
           const trimmedEmail = values.email.trim();
           signIn('register', {
             redirect: false,

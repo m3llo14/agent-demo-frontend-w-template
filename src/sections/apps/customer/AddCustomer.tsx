@@ -31,7 +31,6 @@ export default function AddCustomer() {
     } else {
       setList(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerMaster]);
 
   const closeModal = () => handlerCustomerDialog(false);

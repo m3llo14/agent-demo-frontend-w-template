@@ -41,7 +41,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     if (!miniDrawer) {
       handlerDrawerOpen(!downXL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downXL]);
 
   if (menuMasterLoading) return <Loader />;
@@ -71,8 +70,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           style={{ textDecoration: 'none' }}
           href="https://codedthemes.com/item/able-pro-nextjs-mui-react-admin-template/"
           target="_blank"
-        >
-        </Link>
+        ></Link>
       </Box>
     </Box>
   );

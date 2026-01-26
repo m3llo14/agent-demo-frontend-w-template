@@ -46,22 +46,16 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const newCustomer: CustomerList = await request.json();
-    
+
     // ID'yi otomatik oluştur
-    const maxId = Math.max(...mockCustomers.map(c => c.id || 0), 0);
+    const maxId = Math.max(...mockCustomers.map((c) => c.id || 0), 0);
     newCustomer.id = maxId + 1;
-    
+
     // Mock data'ya ekle (gerçek uygulamada veritabanına kaydedilir)
     mockCustomers.push(newCustomer);
-    
-    return NextResponse.json(
-      { customer: newCustomer },
-      { status: 201 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Invalid request body' },
-      { status: 400 }
-    );
+
+    return NextResponse.json({ customer: newCustomer }, { status: 201 });
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
 }

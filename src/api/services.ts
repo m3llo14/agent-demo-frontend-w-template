@@ -136,4 +136,3 @@ export async function deleteService(serviceId: string, tenantType: TenantType) {
     throw error;
   }
 }
-

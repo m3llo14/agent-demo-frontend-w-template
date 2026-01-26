@@ -20,4 +20,3 @@ const dashboard: NavItemType = {
 };
 
 export default dashboard;
-

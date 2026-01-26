@@ -19,11 +19,7 @@ type RoleGuardProps = {
 
 // ==============================|| ROLE GUARD ||============================== //
 
-export default function RoleGuard({
-  children,
-  allowedRoles,
-  fallbackPath = '/not-authorized'
-}: RoleGuardProps) {
+export default function RoleGuard({ children, allowedRoles, fallbackPath = '/not-authorized' }: RoleGuardProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
 

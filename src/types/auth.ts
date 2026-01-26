@@ -8,8 +8,4 @@ export type GuardProps = {
 
 export type UserRole = 'SUPER_ADMIN' | 'MERCHANT_ADMIN';
 
-export type TenantType =
-  | 'hotel'
-  | 'tourism'
-  | 'barber'
-  | 'clinic';
+export type TenantType = 'hotel' | 'tourism' | 'barber' | 'clinic';

@@ -3,7 +3,7 @@ import { ChatHistory } from 'types/chat';
 /**
  * Otel rezervasyonu senaryosu için chat mock data generator
  * Clean code prensiplerine uygun olarak ayrı bir dosyada tutuldu
- * 
+ *
  * Senaryo: Müşteri otel rezervasyonu için bilgi istiyor,
  * AI Resepsiyonist müşterinin isteklerini yerine getirmeye çalışıyor
  */
@@ -121,9 +121,8 @@ export const generateHotelReservationChat = (customerName: string): ChatHistory[
       id: 16,
       from: AI_RECEPTIONIST,
       to: CUSTOMER,
-      text: 'Rica ederim! Size hizmet etmekten mutluluk duyduk. 15 Aralık\'ta sizi ağırlamayı dört gözle bekliyoruz. İyi günler dileriz! 🏨✨',
+      text: "Rica ederim! Size hizmet etmekten mutluluk duyduk. 15 Aralık'ta sizi ağırlamayı dört gözle bekliyoruz. İyi günler dileriz! 🏨✨",
       time: '09:31'
     }
   ];
 };
-

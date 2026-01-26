@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material/styles';
 
 // ==============================|| LOGO SVG ||============================== //
 
-export default function LogoMain({ reverse }: { reverse?: boolean }) {
+export default function LogoMain() {
   const theme = useTheme();
   return (
     /**

@@ -133,7 +133,6 @@ export default function UserList({ setUser, search, selectedUser }: UserListProp
       }
       setData(result);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, search]);
 
   if (loading)

@@ -9,8 +9,7 @@ import ProviderWrapper from './ProviderWrapper';
 
 export const metadata: Metadata = {
   title: 'Artific Agent',
-  description:
-    'Artific Agent'
+  description: 'Artific Agent'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -10,11 +10,9 @@ import Logo from 'components/logo';
 import AuthWrapper2 from 'sections/auth/AuthWrapper2';
 import AuthLogin from 'sections/auth/auth-forms/AuthLogin';
 
-
 // ================================|| LOGIN ||================================ //
 
 export default function Login2Page() {
-
   return (
     <AuthWrapper2>
       <Grid container spacing={3}>

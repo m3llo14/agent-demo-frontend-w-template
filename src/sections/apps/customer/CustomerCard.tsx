@@ -87,15 +87,15 @@ export default function CustomerCard({ customer }: { customer: CustomerList }) {
                   </IconButton>
                 }
               >
-{/*                 <ListItemAvatar>
+                {/*                 <ListItemAvatar>
                   <Avatar alt={customer.name} src={`${avatarImage}/avatar-${!customer.avatar ? 1 : customer.avatar}.png`} />
                 </ListItemAvatar> */}
                 <ListItemIcon>
-                  <ProfileCircle size={24}/>
+                  <ProfileCircle size={24} />
                 </ListItemIcon>
                 <ListItemText
                   primary={<Typography variant="subtitle1">{customer.name}</Typography>}
-/*                   secondary={<Typography sx={{ color: 'text.secondary' }}>{customer.role}</Typography>} */
+                  /*                   secondary={<Typography sx={{ color: 'text.secondary' }}>{customer.role}</Typography>} */
                 />
               </ListItem>
             </List>
@@ -109,8 +109,7 @@ export default function CustomerCard({ customer }: { customer: CustomerList }) {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-              <MenuItem sx={{ a: { textDecoration: 'none', color: 'inherit' } }}>
-              </MenuItem>
+              <MenuItem sx={{ a: { textDecoration: 'none', color: 'inherit' } }}></MenuItem>
               <MenuItem onClick={editCustomer}>Edit</MenuItem>
               <MenuItem onClick={handleAlertClose}>Delete</MenuItem>
             </Menu>
@@ -118,9 +117,7 @@ export default function CustomerCard({ customer }: { customer: CustomerList }) {
           <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid size={12}>
-{/*             <Typography>Hello, {customer.about}</Typography> */}
-          </Grid>
+          <Grid size={12}>{/*             <Typography>Hello, {customer.about}</Typography> */}</Grid>
           <Grid size={12}>
             <Grid container spacing={1} direction={{ xs: 'column', md: 'row' }}>
               <Grid size={6}>
@@ -156,13 +153,13 @@ export default function CustomerCard({ customer }: { customer: CustomerList }) {
                 <List
                   sx={{ p: 0, overflow: 'hidden', '& .MuiListItem-root': { px: 0, py: 0.5 }, '& .MuiListItemIcon-root': { minWidth: 28 } }}
                 >
-{/*                   <ListItem alignItems="flex-start">
+                  {/*                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <Location size={18} />
                     </ListItemIcon>
                     <ListItemText primary={<Typography sx={{ color: 'text.secondary' }}>{customer.country}</Typography>} />
                   </ListItem> */}
-{/*                   <ListItem alignItems="flex-start">
+                  {/*                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <Link2 size={18} />
                     </ListItemIcon>
@@ -179,7 +176,7 @@ export default function CustomerCard({ customer }: { customer: CustomerList }) {
             </Grid>
           </Grid>
           <Grid size={12}>
-{/*             <Box>
+            {/*             <Box>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', listStyle: 'none', p: 0.5, m: 0 }} component="ul">
                 {customer.skills.map((skill: string, index: number) => (
                   <ListItem disablePadding key={index} sx={{ width: 'auto', pr: 0.75, pb: 0.75 }}>

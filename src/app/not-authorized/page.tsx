@@ -16,9 +16,7 @@ export default function NotAuthorized() {
     <MainCard>
       <Stack sx={{ gap: 2, alignItems: 'flex-start' }}>
         <Typography variant="h4">Access denied</Typography>
-        <Typography color="text.secondary">
-          You do not have permission to view this page.
-        </Typography>
+        <Typography color="text.secondary">You do not have permission to view this page.</Typography>
         <Button component={Link} href="/dashboard" variant="contained">
           Go to dashboard
         </Button>
@@ -26,4 +24,3 @@ export default function NotAuthorized() {
     </MainCard>
   );
 }
-

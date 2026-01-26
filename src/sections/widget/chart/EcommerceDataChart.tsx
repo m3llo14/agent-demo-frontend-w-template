@@ -88,4 +88,3 @@ export default function EcommerceDataChart({ color, height }: Props) {
 
   return <ReactApexChart options={options} series={series} type="bar" height={height ? height : 50} />;
 }
-

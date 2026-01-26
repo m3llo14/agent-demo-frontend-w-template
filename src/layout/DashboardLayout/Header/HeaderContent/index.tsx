@@ -25,7 +25,6 @@ export default function HeaderContent() {
 
   const localization = useMemo(() => <Localization />, []);
 
-
   return (
     <>
       {menuOrientation === MenuOrientation.HORIZONTAL && !downLG && <DrawerHeader open={true} />}

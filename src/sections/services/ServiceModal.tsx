@@ -10,6 +10,7 @@ import ServiceForm from './ServiceForm';
 import { buildServicePayload, getServiceUiConfig, mapServiceToFormValues, ServiceFormValues } from './tenantConfig';
 import { ServiceRecord, TenantType } from 'types/service';
 import useLocales from 'utils/locales/useLocales';
+import { SnackbarProps } from 'types/snackbar';
 
 interface Props {
   open: boolean;
@@ -38,9 +39,9 @@ export default function ServiceModal({ open, onClose, tenantType, service }: Pro
         alert: {
           color: 'success'
         }
-      });
+      } as SnackbarProps);
       onClose();
-    } catch (error) {
+    } catch {
       openSnackbar({
         open: true,
         message: t(service ? 'servicesPage.messages.updateError' : 'servicesPage.messages.createError'),
@@ -48,7 +49,7 @@ export default function ServiceModal({ open, onClose, tenantType, service }: Pro
         alert: {
           color: 'error'
         }
-      });
+      } as SnackbarProps);
     }
   };
 
@@ -65,4 +66,3 @@ export default function ServiceModal({ open, onClose, tenantType, service }: Pro
     </Dialog>
   );
 }
-

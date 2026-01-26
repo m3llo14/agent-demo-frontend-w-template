@@ -81,6 +81,4 @@ export const tourismServices: TourismService[] = [
   }
 ];
 
-export const getCollection = (tenantType: TenantType): ServiceRecord[] =>
-  tenantType === 'tourism' ? tourismServices : hotelServices;
-
+export const getCollection = (tenantType: TenantType): ServiceRecord[] => (tenantType === 'tourism' ? tourismServices : hotelServices);

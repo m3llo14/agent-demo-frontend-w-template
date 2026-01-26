@@ -1,6 +1,3 @@
-// eslint-disable-next-line
-import NextAuth from 'next-auth';
-
 // types
 import type { TenantType, UserRole } from 'types/auth';
 

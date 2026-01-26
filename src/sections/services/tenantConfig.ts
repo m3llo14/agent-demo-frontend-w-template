@@ -61,8 +61,7 @@ const numberField = (key: string, label: string, suffix?: string) =>
 
 const dateField = (key: string, label: string) => field(key, label, { type: 'date' });
 
-const multilineField = (key: string, label: string, rows = 3) =>
-  field(key, label, { multiline: true, rows, grid: { xs: 12 } });
+const multilineField = (key: string, label: string, rows = 3) => field(key, label, { multiline: true, rows, grid: { xs: 12 } });
 
 const formatPricingTiers = (tiers: PricingTier[]) => {
   if (!tiers?.length) return '—';
@@ -214,12 +213,8 @@ const toNumber = (value: string) => {
 export const buildServicePayload = (tenantType: TenantType, values: ServiceFormValues): ServiceCreateInput => {
   if (tenantType === 'tourism') {
     const pricingTiers = [
-      values.adultPrice
-        ? { name: 'Yetişkin', price: toNumber(values.adultPrice), isActive: true }
-        : null,
-      values.childPrice
-        ? { name: 'Çocuk', price: toNumber(values.childPrice), isActive: true }
-        : null
+      values.adultPrice ? { name: 'Yetişkin', price: toNumber(values.adultPrice), isActive: true } : null,
+      values.childPrice ? { name: 'Çocuk', price: toNumber(values.childPrice), isActive: true } : null
     ].filter(Boolean) as PricingTier[];
 
     return {
@@ -275,4 +270,3 @@ export const mapServiceToFormValues = (service: ServiceRecord): ServiceFormValue
     maxChildren: service.tenantType === 'hotel' ? String(service.maxChildren) : ''
   };
 };
-

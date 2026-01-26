@@ -64,9 +64,7 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit, initialVal
     const startAdornment = field.adornment?.start ? (
       <InputAdornment position="start">{t(field.adornment.start)}</InputAdornment>
     ) : undefined;
-    const endAdornment = field.adornment?.end ? (
-      <InputAdornment position="end">{t(field.adornment.end)}</InputAdornment>
-    ) : undefined;
+    const endAdornment = field.adornment?.end ? <InputAdornment position="end">{t(field.adornment.end)}</InputAdornment> : undefined;
 
     const inputProps = startAdornment || endAdornment ? { startAdornment, endAdornment } : undefined;
     const gridSize = field.grid ?? { xs: 12, md: 6 };
@@ -115,4 +113,3 @@ export default function ServiceForm({ tenantType, onCancel, onSubmit, initialVal
     </form>
   );
 }
-

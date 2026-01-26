@@ -15,7 +15,10 @@ const SECTOR_TYPE_REGISTRY: Record<string, TenantType> = {
   appointment: 'barber'
 };
 
-const normalizeSectorType = (value?: string) => String(value ?? '').trim().toLowerCase();
+const normalizeSectorType = (value?: string) =>
+  String(value ?? '')
+    .trim()
+    .toLowerCase();
 
 export const resolveTenantType = (params: { sectorId?: string; sectorType?: string }): TenantType | undefined => {
   if (params.sectorId && SECTOR_REGISTRY[params.sectorId]) {

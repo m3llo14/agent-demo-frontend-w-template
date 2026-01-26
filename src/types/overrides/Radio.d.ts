@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import * as Radio from '@mui/material/Radio';
+import '@mui/material/Radio';
 
 declare module '@mui/material/Radio' {
   interface RadioPropsSizeOverrides {

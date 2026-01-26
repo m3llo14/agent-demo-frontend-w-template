@@ -5,7 +5,6 @@ import dashboard from './dashboard-menu';
 // types
 import { NavItemType } from 'types/menu';
 
-
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems: { items: NavItemType[] } = {

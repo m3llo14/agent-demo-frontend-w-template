@@ -67,6 +67,7 @@ export default function MainCard({
       elevation={elevation || 0}
       ref={ref}
       {...others}
+      {...(codeString && { 'data-code-string': codeString })}
       sx={(theme) => {
         const style: SxProps<Theme> = {
           position: modal ? 'absolute' : 'relative',
