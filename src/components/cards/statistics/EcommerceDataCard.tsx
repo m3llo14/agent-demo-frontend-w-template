@@ -15,6 +15,7 @@ import MainCard from 'components/MainCard';
 import Avatar from 'components/@extended/Avatar';
 import IconButton from 'components/@extended/IconButton';
 import MoreIcon from 'components/@extended/MoreIcon';
+import useLocales from 'utils/locales/useLocales';
 
 // types
 import { ColorProps } from 'types/extended';
@@ -26,12 +27,14 @@ interface Props {
   iconPrimary: ReactNode;
   children: any;
   color?: ColorProps;
+  onPeriodChange?: (period: 'lastWeek' | 'last3Months' | 'lastYear' | 'last3Year') => void;
 }
 
 // ==============================|| CHART WIDGET - ECOMMERCE CARD  ||============================== //
 
-export default function EcommerceDataCard({ title, count, percentage, color, iconPrimary, children }: Props) {
+export default function EcommerceDataCard({ title, count, percentage, color, iconPrimary, children, onPeriodChange }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { t } = useLocales();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -78,9 +81,38 @@ export default function EcommerceDataCard({ title, count, percentage, color, ico
                 horizontal: 'right'
               }}
             >
-              <ListItemButton onClick={handleClose}>Today</ListItemButton>
-              <ListItemButton onClick={handleClose}>Weekly</ListItemButton>
-              <ListItemButton onClick={handleClose}>Monthly</ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  onPeriodChange?.('lastWeek');
+                  handleClose();
+                }}
+              >
+                {t('dashboard.range.lastWeek')}
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  onPeriodChange?.('last3Months');
+                  handleClose();
+                }}
+              >
+                {t('dashboard.range.last3Months')}
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  onPeriodChange?.('lastYear');
+                  handleClose();
+                }}
+              >
+                {t('dashboard.range.lastYear')}
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  onPeriodChange?.('last3Year');
+                  handleClose();
+                }}
+              >
+                {t('dashboard.range.last3Years')}
+              </ListItemButton>
             </Menu>
           </Stack>
         </Grid>

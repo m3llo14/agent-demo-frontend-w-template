@@ -133,6 +133,10 @@
   "dashboard.range.today": "Bugün",
   "dashboard.range.weekly": "Haftalık",
   "dashboard.range.monthly": "Aylık",
+  "dashboard.range.lastWeek": "Geçen Hafta",
+  "dashboard.range.last3Months": "Son 3 Ay",
+  "dashboard.range.lastYear": "Geçen Yıl",
+  "dashboard.range.last3Years": "Son 3 Yıl",
 
   "labels": {
     "customer": {

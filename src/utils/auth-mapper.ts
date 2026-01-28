@@ -2,6 +2,18 @@
 import { TenantType, UserRole } from 'types/auth';
 import { resolveTenantType } from 'config/sector-registry';
 
+const normalizeTenantType = (value?: string): TenantType | undefined => {
+  const normalized = String(value ?? '')
+    .trim()
+    .toLowerCase();
+
+  if (normalized === 'hotel' || normalized === 'tourism' || normalized === 'barber' || normalized === 'clinic') {
+    return normalized as TenantType;
+  }
+
+  return undefined;
+};
+
 export const mapAuthUser = (
   backendUser: any
 ): {
@@ -13,6 +25,8 @@ export const mapAuthUser = (
   const sectorId = backendUser?.sectorId;
   const sectorType = backendUser?.sectorType;
   const merchantId = backendUser?.merchantId;
+  const tenantType = normalizeTenantType(backendUser?.tenantType);
+  const resolvedTenantType = tenantType ?? resolveTenantType({ sectorId, sectorType });
 
   // super admin tenant’sız
   if (rawRole === 'super_admin' || rawRole === 'super-admin' || rawRole === 'superadmin') {
@@ -23,7 +37,7 @@ export const mapAuthUser = (
   if (rawRole === 'admin' || rawRole === 'merchant_admin' || rawRole === 'merchant-admin') {
     return {
       role: 'MERCHANT_ADMIN',
-      tenantType: resolveTenantType({ sectorId, sectorType }),
+      tenantType: resolvedTenantType,
       merchantId
     };
   }
@@ -32,7 +46,7 @@ export const mapAuthUser = (
   if (sectorId) {
     return {
       role: 'MERCHANT_ADMIN',
-      tenantType: resolveTenantType({ sectorId, sectorType }),
+      tenantType: resolvedTenantType,
       merchantId
     };
   }

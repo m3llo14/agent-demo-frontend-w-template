@@ -21,6 +21,7 @@ declare module 'next-auth' {
         role?: string;
         sectorId?: string;
         sectorType?: string;
+        tenantType?: TenantType;
         merchantId?: string;
       };
     };
@@ -36,6 +37,7 @@ declare module 'next-auth/jwt' {
       role?: string;
       sectorId?: string;
       sectorType?: string;
+      tenantType?: TenantType;
       merchantId?: string;
     };
   }

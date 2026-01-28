@@ -1,0 +1,31 @@
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534733864}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534733864}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534733864}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534733891}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534733891}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534733864}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534733891}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534733891}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534733896}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534733897}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534733897}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534733897}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"unauthenticated","hasBackendUser":false},"timestamp":1769534736997}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"unauthenticated","hasBackendUser":false},"timestamp":1769534737023}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534905136}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534905136}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534905136}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534905136}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534905168}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534905168}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534905168}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534905168}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534905175}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"loading","hasBackendUser":false},"timestamp":1769534905176}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534905176}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H7","location":"GuestGuard.tsx:24","message":"GuestGuard return loading","data":{"status":"loading"},"timestamp":1769534905176}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H8","location":"GuestGuard.tsx:28","message":"GuestGuard effect","data":{"status":"loading","isAuthenticated":false},"timestamp":1769534905456}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H8","location":"GuestGuard.tsx:28","message":"GuestGuard effect","data":{"status":"loading","isAuthenticated":false},"timestamp":1769534905456}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"unauthenticated","hasBackendUser":false},"timestamp":1769534907760}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H6","location":"GuestGuard.tsx:19","message":"GuestGuard render","data":{"status":"unauthenticated","hasBackendUser":false},"timestamp":1769534907761}
+{"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"H8","location":"GuestGuard.tsx:28","message":"GuestGuard effect","data":{"status":"unauthenticated","isAuthenticated":false},"timestamp":1769534907848}

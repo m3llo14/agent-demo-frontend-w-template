@@ -17,19 +17,19 @@ export default function GuestGuard({ children }: GuardProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // session yüklenirken bekle
-  if (status === 'loading') {
-    return <Loader />;
-  }
-
   const isAuthenticated = Boolean(session?.user?.backendUser);
 
   // login olmuş kullanıcı guest sayfasına girmesin
   useEffect(() => {
-    if (isAuthenticated) {
+    if (status !== 'loading' && isAuthenticated) {
       router.replace('/dashboard');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, status]);
+
+  // session yüklenirken bekle
+  if (status === 'loading') {
+    return <Loader />;
+  }
 
   if (isAuthenticated) {
     return null;

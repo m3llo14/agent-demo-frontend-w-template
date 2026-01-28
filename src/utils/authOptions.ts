@@ -19,6 +19,7 @@ declare module 'next-auth' {
       role?: string;
       sectorId?: string;
       sectorType?: string;
+      tenantType?: string;
       merchantId?: string;
     };
   }
@@ -33,6 +34,7 @@ declare module 'next-auth' {
         role?: string;
         sectorId?: string;
         sectorType?: string;
+        tenantType?: string;
         merchantId?: string;
       };
     };
@@ -49,6 +51,7 @@ declare module 'next-auth/jwt' {
       role?: string;
       sectorId?: string;
       sectorType?: string;
+      tenantType?: string;
       merchantId?: string;
     };
   }
@@ -123,6 +126,7 @@ export const authOptions: NextAuthOptions = {
               role: rawUser.role ?? tokenPayload.role,
               sectorId: tokenPayload.sectorId,
               sectorType: tokenPayload.sectorType,
+              tenantType: rawUser.tenantType ?? tokenPayload.tenantType,
               merchantId: tokenPayload.merchantId
             }
           };

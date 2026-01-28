@@ -29,7 +29,6 @@ export default function DashboardDefault() {
   const { t } = useLocales();
 
   const auth = session?.user?.backendUser ? mapAuthUser(session.user.backendUser) : null;
-
   // super admin bu dashboard'u görmesin
   if (!auth || auth.role === 'SUPER_ADMIN' || !auth.tenantType) {
     return null;

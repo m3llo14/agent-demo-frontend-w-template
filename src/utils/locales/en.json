@@ -132,6 +132,10 @@
   "dashboard.range.today": "Today",
   "dashboard.range.weekly": "Weekly",
   "dashboard.range.monthly": "Monthly",
+  "dashboard.range.lastWeek": "Last Week",
+  "dashboard.range.last3Months": "Last 3 Months",
+  "dashboard.range.lastYear": "Last Year",
+  "dashboard.range.last3Years": "Last 3 Years",
 
   "labels": {
     "customer": {
