@@ -22,7 +22,7 @@ import { resolveTenantType } from 'config/sector-registry';
 import useLocales from 'utils/locales/useLocales';
 
 // assets
-import { Book, Calendar, CloudChange, Wallet3 } from '@wandersonalwes/iconsax-react';
+import { Book, CloudChange, Wallet3 } from '@wandersonalwes/iconsax-react';
 
 type DashboardData = {
   totalRevenue: number;
@@ -31,6 +31,20 @@ type DashboardData = {
 };
 
 type CardKey = 'revenue' | 'bookings' | 'today';
+
+type TrendPoint = {
+  label: string;
+  value: number;
+};
+
+type TrendResponse = {
+  currentValue: number;
+  previousValue: number;
+  changePercentage: number;
+  data: TrendPoint[];
+};
+
+
 type PeriodValue = 'lastWeek' | 'last3Months' | 'lastYear' | 'last3Year';
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
@@ -47,6 +61,9 @@ export default function Dashboard() {
     bookings: 'lastWeek',
     today: 'lastWeek'
   });
+
+  const [trendPeriod, setTrendPeriod] = useState<PeriodValue>('last3Months');
+  const [trendData, setTrendData] = useState<TrendResponse | null>(null);
 
   const auth = session?.user?.backendUser ?? null;
 
@@ -84,7 +101,7 @@ export default function Dashboard() {
   }, [merchantId, periods.revenue]);
   useEffect(() => {
     if (!merchantId) return;
-    
+
     axiosServices
       .get(`/appointments/dashboard/${merchantId}`, {
         params: { period: periods.bookings }
@@ -105,6 +122,19 @@ export default function Dashboard() {
       })
       .catch(console.error);
   }, [merchantId, periods.today]);
+
+  useEffect(() => {
+    if (!merchantId) return;
+  
+    axiosServices
+      .get(`/appointments/dashboard/${merchantId}/revenue-trend`, {
+        params: { period: trendPeriod }
+      })
+      .then((res) => {
+        setTrendData(res.data.data);
+      })
+      .catch(console.error);
+  }, [merchantId, trendPeriod]);
 
   const handlePeriodChange = (cardKey: CardKey, period: PeriodValue) => {
     setPeriods((prev) => ({ ...prev, [cardKey]: period }));
@@ -155,7 +185,16 @@ export default function Dashboard() {
 
       {/* row 2 */}
       <Grid size={{ xs: 12 }}>
-        <RepeatCustomerRate />
+        {trendData && (
+          <RepeatCustomerRate
+            data={trendData.data}
+            currentValue={trendData.currentValue}
+            previousValue={trendData.previousValue}
+            changePercentage={trendData.changePercentage}
+            period={trendPeriod}
+            onPeriodChange={setTrendPeriod}
+          />
+        )}
       </Grid>
     </Grid>
   );

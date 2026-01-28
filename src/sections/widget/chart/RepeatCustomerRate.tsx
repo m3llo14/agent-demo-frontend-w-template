@@ -1,4 +1,6 @@
-import { useState, MouseEvent } from 'react';
+'use client';
+
+import { MouseEvent, useState } from 'react';
 
 // material-ui
 import Chip from '@mui/material/Chip';
@@ -14,11 +16,38 @@ import MoreIcon from 'components/@extended/MoreIcon';
 import MainCard from 'components/MainCard';
 import useLocales from 'utils/locales/useLocales';
 
-// ==============================|| CHART - REPEAT CUSTOMER RATE ||============================== //
+type PeriodValue = 'lastWeek' | 'last3Months' | 'lastYear' | 'last3Year';
 
-export default function RepeatCustomerRate() {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+type TrendPoint = {
+  label: string;
+  value: number;
+};
+
+interface Props {
+  data: TrendPoint[];
+  currentValue: number;
+  previousValue: number;
+  changePercentage: number;
+  period: PeriodValue;
+  onPeriodChange: (p: PeriodValue) => void;
+}
+
+export default function RepeatCustomerRate({
+  data,
+  currentValue,
+  previousValue,
+  changePercentage,
+  period,
+  onPeriodChange
+}: Props) {
   const { t } = useLocales();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const periodLabels: Record<PeriodValue, string> = {
+    lastWeek: t('dashboard.range.lastWeek'),
+    last3Months: t('dashboard.range.last3Months'),
+    lastYear: t('dashboard.range.lastYear'),
+    last3Year: t('dashboard.range.last3Years')
+  };
 
   const open = Boolean(anchorEl);
 
@@ -26,50 +55,46 @@ export default function RepeatCustomerRate() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleSelect = (p: PeriodValue) => {
+    onPeriodChange(p);
     setAnchorEl(null);
   };
 
   return (
     <MainCard>
-      <Stack direction="row" sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="h5">{t('dashboard.repeatCustomerRate')}</Typography>
+      {/* HEADER */}
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Typography variant="h5">
+          {t('dashboard.cards.revenue')}
+        </Typography>
+
         <IconButton
           color="secondary"
-          id="wallet-button"
-          aria-controls={open ? 'wallet-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
           sx={{ transform: 'rotate(90deg)' }}
         >
           <MoreIcon />
         </IconButton>
-        <Menu
-          id="wallet-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          slotProps={{ list: { 'aria-labelledby': 'wallet-button', sx: { p: 1.25, minWidth: 150 } } }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right'
-          }}
-        >
-          <ListItemButton onClick={handleClose}>{t('dashboard.range.today')}</ListItemButton>
-          <ListItemButton onClick={handleClose}>{t('dashboard.range.weekly')}</ListItemButton>
-          <ListItemButton onClick={handleClose}>{t('dashboard.range.monthly')}</ListItemButton>
+
+        <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
+          <ListItemButton onClick={() => handleSelect('lastWeek')}>{periodLabels.lastWeek}</ListItemButton>
+          <ListItemButton onClick={() => handleSelect('last3Months')}>{periodLabels.last3Months}</ListItemButton>
+          <ListItemButton onClick={() => handleSelect('lastYear')}>{periodLabels.lastYear}</ListItemButton>
+          <ListItemButton onClick={() => handleSelect('last3Year')}>{periodLabels.last3Year}</ListItemButton>
         </Menu>
       </Stack>
-      <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center', justifyContent: 'flex-end', mt: 1 }}>
-        <Typography variant="subtitle1">5.44%</Typography>
-        <Chip color="success" variant="filled" label="+2.6%" size="small" sx={{ bgcolor: 'success.main', borderRadius: 1 }} />
+
+      {/* METRIC */}
+      <Stack direction="row" justifyContent="flex-end" mt={1}>
+        <Chip
+          label={`${changePercentage > 0 ? '+' : ''}${changePercentage}%`}
+          color={changePercentage >= 0 ? 'success' : 'error'}
+          size="small"
+        />
       </Stack>
-      <RepeatCustomerChart />
+
+      {/* CHART */}
+      <RepeatCustomerChart data={data} period={period} />
     </MainCard>
   );
 }

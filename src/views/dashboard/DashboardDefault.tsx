@@ -88,7 +88,6 @@ export default function DashboardDefault() {
 
       {/* row 2 */}
       <Grid size={{ xs: 12 }}>
-        <RepeatCustomerRate />
       </Grid>
     </Grid>
   );
